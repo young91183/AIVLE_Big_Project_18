@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'rpg/rpg.css' %}">
+<link rel="stylesheet" href="{% static 'header.css' %}">
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static '/rpg/rpg.js' %}" defer></script>
+<script>
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
+</script>
+<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script> <!-- IONICONS -->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<!-- Modal -->
+<div id="modalWrap">
+  <div id="modalContent">
+    <span id="closeBtn">&times;</span>
+    <img id="modalImage" src="/static/img/grow_ex.png" alt="Grow Example">
+  </div>
+</div>
+
+<div id="modalWrap">
+  <div id="modalContent">
+    <span id="closeBtn">&times;</span>
+    <img id="modalImage" src="/static/img/error_guide.png" alt="Error Guide">
+  </div>
+</div>
+
+{% comment %} <!-- 헤더 -->
+<div class="commu_head_wrapper">
+  <div class="commu_head_menu_wrapper" style="display: inline;">
+      <a class="commu_head_menu"><ion-icon id="grow-ex" name="document-text-outline" class="commu_head_menu_icon"></ion-icon></a>
+      <a class="commu_head_menu"><ion-icon name="information-circle" class="commu_head_menu_icon"></ion-icon></a>
+      <a href="{% url 'rpg:persona' %}" class="commu_head_menu"><ion-icon name="exit-outline" class="commu_head_menu_icon"></ion-icon></a>
+    </div>
+</div> {% endcomment %}
+
+<!-- 로딩 창 -->
+{% comment %} <div class="loading-overlay">
+  <div class="loading-text">로딩 중...</div>
+</div> {% endcomment %}
+
+{% comment %} <div id="loadingModal" class="modal-background">
+  <div class="modal-content">
+    <div class="loader"></div>
+    <div id="loadingMessage">로딩 중...</div>
+  </div>
+</div> {% endcomment %}
+
+
+<!-- ================================================================ -->
+<!-- 시뮬레이션 메인 -->
+<div class="rpg_wrapper">
+    <div class="rpg_wrapper_lay">
+        <div class="rpg_content">
+          <div class="rpg_content_head">
+            <div class="real_time_score_wrapper">
+                <div>GROW 모델</div>
+                <div id ="grow_count" class="real_time_score">G:0 R:0 O:0 W:0 </div>
+            </div>
+            <div id = "topic" class = 'topic'>{{topic}}</div>
+            <button class="rpg_submit_btn" id="end_btn">실습 종료</button>
+          </div>
+          <div class="chat_container" id="chat-container"></div>
+          <img id='loadingModal' class="loading_img" src="/static/img/loading_icon.gif" alt="로딩이미지">
+        </div>
+        {% csrf_token %}
+        <div class="rpg_bottom">
+            <div class="rpg_input_section">
+                {% comment %} <img class="rpg_record_icon" id="record" src="/static/img/mice.png" alt="녹음아이콘"> {% endcomment %}
+                <div class="grow_bubble">
+                  <ion-icon name="document-text-outline" class="rpg_record_icon" id="grow-ex"></ion-icon>
+                  <span class="growtooltip">GROW 예시 질문 리스트</span>
+                </div>
+                <div class="info_bubble">
+                  <ion-icon name="information-circle" class="rpg_record_icon" id="error_guide"></ion-icon>
+                  <span class="infotooltip">에러 가이드</span>
+                </div>
+                <div class="speech_bubble">
+                  <ion-icon name="mic-circle-outline" class="rpg_record_icon" id="record"></ion-icon>
+                  <span class="tooltip">말을 다 하셨다면 한번 더 클릭해주세요</span>
+                </div>
+                {% comment %} <ion-icon name="mic-off-outline"></ion-icon> {% endcomment %}
+                {% comment %} <img class="rpg_stop_icon" id="stop" src="/static/img/check.png" alt="중지아이콘"> {% endcomment %}
+                <input class="rpg_input_container" type="text" id="user-input" placeholder="이곳에 입력하세요.">
+                {% comment %} <img class="rpg_send_icon" id="send-btn" src="/static/img/send.png" alt="전송아이콘"> {% endcomment %}
+                <ion-icon name="send-outline" class="rpg_send_icon" id="send-btn"></ion-icon>
+                {% comment %} 충영
+                <ion-icon name="construct-outline" class="persona_remind_icon" id="remind-btn"></ion-icon> {% endcomment %}
+              </div>
+            {% comment %} <p>최근 녹음 재생</p>
+            <button id="sound-clips">재생</button>
+            <button class="rpg_end_btn" id="end_btn">실습종료</button> {% endcomment %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,82 @@
+/*왜 active menu 안 되지*/
+.active-menu {
+  background-color: blue;
+  color: white;
+}
+
+.header {
+    background-color: white;
+    border-top: 1px solid #2FC4CE;
+    border-bottom: 1px solid #2FC4CE;
+    height: 90px; /* 헤더 높이를 높이려면 값을 증가시키세요 */
+  }
+  
+  .container_h {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1500px;
+    margin: 0 30px;
+    padding: 0 30px;
+  }
+  
+  .menu-head {
+    font-size: 33px;
+    height: 92px; /* 헤더 높이와 일치하게 변경 */
+    color: #2FC4CE;
+    font-weight: 700;
+    /*line-height: 90px; /* 텍스트가 헤더 높이와 일치하게 세로 가운데 정렬 */
+  }
+  
+  .logo-link{
+    text-decoration: none;
+    color: #2FC4CE;
+    line-height: 92px;
+  }
+
+  .login-link,
+  .signup-link {
+    text-decoration: none;
+    color: #2FC4CE;
+    height: 92px; /*헤더 높이와 일치하게 변경 */
+    line-height: 92px; /*텍스트가 헤더 높이와 일치하게 세로 가운데 정렬 */
+    margin-left: auto;
+    font-weight: 500;
+}
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu-header {
+    font-size: 18px;
+    font-weight: 500px;
+    margin-left: 80px;
+    text-decoration: none;
+    color: #2FC4CE;
+    height: 92px; /* 헤더 높이와 일치하게 변경 */
+    line-height: 92px; /* 텍스트가 헤더 높이와 일치하게 세로 가운데 정렬 */
+  }
+  
+  .nav-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Log In과 Sign Up을 오른쪽 끝으로 이동 */
+    }
+  
+  .divider {
+    color: #2FC4CE;
+    margin: 0 0;
+    line-height: 92px;
+  }
+  
+  .menu-group {
+    display: flex;
+    margin-left : 30px;
+    margin-right: 0px;
+  }
+
+  .menu-group > *:not(:last-child) {
+    margin-right: 10px;
+  }

@@ -1,0 +1,158 @@
+/* 팝업창 */
+
+/* .modal_overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+}
+
+.modal_window {
+  background: white;
+  backdrop-filter: blur(13.5px);
+  -webkit-backdrop-filter: blur(13.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: 800px;
+  height: 600px;
+  position: relative;
+  padding: 10px;
+}
+
+.modal_title{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.modal_title_side{
+  flex: 0 0 40px;
+  text-align: center;
+} */
+
+/* 메인창 */
+.signup_wrapper { /* 로그인 흰 박스 통째로 가운데 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 50px 0px;
+    background: #E9F2FF;
+  }
+  .signup_content_wrapper{  /* 흰박스 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 70px;
+    border-radius: 20px;
+    background: white;
+  }
+  .signup_content_wrapper_layout{
+    text-align: left;
+  }
+  .signup_content_title{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+  }
+  .signup_content_detail{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  .signup_content_detail_input_wrapper{
+    display: flex;
+    flex-direction: column;
+  }
+.signup_content_detail_duplicate{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.signup_duplicate_btn, .signup_content_detail_person_info_btn{
+    background-color: #797979;
+    color: white;
+    border: solid 1px #797979;
+    border-radius: 7px;
+}
+
+.signup_duplicate_btn:hover, .signup_content_detail_person_info_btn:hover{
+  background:white;
+  color:#797979;
+  border: solid 1px #797979;
+}
+  .signup_content_detail_input, .signup_content_detail_job{
+    border: #D2D2D2 solid 1px;
+    border-radius: 7px;
+    color: #797979;
+    padding: 10px;
+    margin: 10px 0px;
+  }
+.signup_content_detail_birth{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.signup_content_detail_birth_box{
+    margin: 5px 5px;
+    border: #D2D2D2 solid 1px;
+    color: #797979;
+    border-radius: 7px;
+    padding: 10px;
+}
+
+.signup_content_detail_dp{
+  display: flex;
+  justify-content: center;
+}
+
+.signup_content_detail_gender{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0px;
+}
+
+  .signup_line{
+    width:350px;
+    border: solid #D2D2D2 1px;
+  }
+  .signup_content_detail_submit{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .signup_content_detail_person_info{
+    margin: 10px 0px;
+  }
+
+  .signup_content_detail_submit_btn{
+    color:#0068FF;
+    background-color: white;
+    border: solid 1px #0068FF;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0px;
+    width: 350px;
+  }
+
+  .signup_content_detail_submit_btn:hover {
+    background-color:#0068FF;
+    color: white;
+    transition: 1.0s;
+}

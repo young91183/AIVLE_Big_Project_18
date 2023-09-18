@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+  <script src="{% static 'admin_page/admin_persona.js' %}" defer></script>
+  <link rel="stylesheet" href="{% static 'admin_page/admin_persona.css' %}">
+  <link rel="icon" type="image/x-icon" sizes="16x16" href="/static/image/kt_favicon.png">
+  <title>K-Training</title>
+</head>
+
+<body>
+    <div class="sidebar">
+        <a href="{% url 'common:home' %}" class="kt-coaching">K-training</a>
+        <div class="separator"></div>
+        <div class="statistics">통계<span class="arrow">▼</span></div>
+        <div class= "inside-info">
+            <a href="{% url 'admin_page:admin_user' %}" id="visitors">사용자</a>
+            <a href="{% url 'admin_page:admin_persona' %}" id="member-ratio">페르소나</a>
+        </div>
+    </div>
+    <div class="main-section">
+        <div class="main-top">
+            <div class="main-top-text">
+                페르소나 통계
+            </div>
+        </div>   
+        <div class="main-content">
+            <div class="main-graph-box">
+                <div class="main-graph-box1">
+                    <div class="graph1-title">선택한 성별</div>
+                    <div class="graph1">
+                        <canvas id="gender_Chart"style="height: 100%; width: 100%;"></canvas>
+                    </div>
+                    <script id="gender_counts" type="application/json">
+                        {{ gender_counts | safe }}
+                    </script>
+                </div>
+                <div class="main-graph-box2">
+                    <div class="graph1-title">선택한 연령대</div>
+                    <div class="graph2">
+                        <canvas id="age_Chart"style="height: 100%; width: 100%;"></canvas>
+                    </div>
+                    <script id="age_counts" type="application/json">
+                        {{ age_counts | safe }}
+                    </script>
+                </div>
+            </div>
+            <div class="sub-graph-box">
+                <div class="main-sub-graph-box1">
+                    <div class="graph2-title">선택한 직군</div>
+                    <div class="graph3">
+                        <canvas id="department_Chart" style="height: 100%; width: 100%;"></canvas>
+                    </div>
+                    <script id="department_counts" type="application/json">
+                        {{ department_counts | safe }}
+                    </script>
+                </div>
+                <div class="main-sub-graph-box2">
+                    <div class="graph3-title">선택한 직급</div>
+                    <div class="graph4">
+                        <canvas id="rank_Chart" style="height: 100%; width: 100%;"></canvas>
+                    </div>
+                    <script id="rank_counts" type="application/json">
+                        {{ rank_counts | safe }}
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>  
+</body>
+</html>
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+    <script src="{% static 'admin_page/admin_persona.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static '/admin_page/admin_persona.css' %}">
+</head> {% endcomment %}
+
+{% comment %} <body>
+    <h1>Admin Page</h1>
+
+    <div class="gender_graph">
+        <canvas id="gender_Chart"></canvas>
+    </div>
+    <script id="gender_counts" type="application/json">
+        {{ gender_counts | safe }}
+    </script>
+
+    <div class="age_graph">
+        <canvas id="age_Chart"></canvas>
+    </div>
+    <script id="age_counts" type="application/json">
+        {{ age_counts | safe }}
+    </script>
+
+    <div class="rank_graph">
+        <canvas id="rank_Chart"></canvas>
+    </div>
+    <script id="rank_counts" type="application/json">
+        {{ rank_counts | safe }}
+    </script>
+    
+    <div class="department_graph">
+        <canvas id="department_Chart"></canvas>
+    </div>
+    <script id="department_counts" type="application/json">
+        {{ department_counts | safe }}
+    </script>
+    
+    <a class="go_page"href="{% url 'admin_page:admin_user' %}">페르소나 통계 페이지로 가기</a>
+</body>
+</html> {% endcomment %}

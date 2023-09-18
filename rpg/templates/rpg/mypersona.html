@@ -1,0 +1,25 @@
+<!-- Mypage 템플릿 (mypage.html) -->
+{% extends "base.html" %}
+{% block content %}
+  <h1>마이 페이지</h1>
+
+  <h2>나의 페르소나</h2>
+  <ul>
+    {% for persona in personas %}
+    <li>
+      페르소나 ID: {{ persona.pk }}, 닉네임: {{ persona.nickname }}
+      {% if persona.shared %}
+        <form action="{% url 'rpg:stop_sharing' persona.pk %}" method="POST">
+          {% csrf_token %}
+          <button type="submit">공유 중지</button>
+        </form>
+      {% else %}
+        <form action="{% url 'rpg:share_persona' persona.pk %}" method="POST">
+          {% csrf_token %}
+          <button type="submit">공유하기</button>
+        </form>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

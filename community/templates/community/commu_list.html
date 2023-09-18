@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% comment %} 메인 {% endcomment %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static '/community/community.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static '/community/community.js' %}" defer></script>
+<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script> <!-- IONICONS -->
+
+<!-- 헤더 -->
+<!--<div class="commu_head_wrapper">
+  <div class="commu_head_menu_wrapper" style="display: inline;">
+      {% comment %} href는 아직 구현 안 됨 {% endcomment %}
+      <a href="{% url 'community:commu_list' %}" class="commu_head_menu"><ion-icon name="information-circle" class="commu_head_menu_icon"></ion-icon></a>
+      <a href="{% url 'common:home' %}" class="commu_head_menu"><ion-icon name="exit-outline" class="commu_head_menu_icon"></ion-icon></a>
+  </div>
+</div>-->
+
+<!-- 사이드 바 -->
+<div class="navbar" id="navbar">
+  <nav class="nav">
+    <div>
+      <div class="nav__brand">
+        <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+        {% comment %} <a href="{% url 'common:home' %}" class="nav__logo">KT coaching</a> {% endcomment %}
+      </div>
+      <div class="nav__list">
+        <a href="#" class="nav__link active" onclick="loadContent('notice_list')">
+          <ion-icon name="megaphone-outline" class="nav__icon" onclick="loadContent('notice_list')"></ion-icon>
+          <span class="nav_name" onclick="loadContent('notice_list')">공지사항</span>
+        </a>
+        <a href="#" class="nav__link active" onclick="loadContent('survey_list')">
+          <ion-icon name="receipt-outline" class="nav__icon" onclick="loadContent('survey_list')"></ion-icon>
+          <span class="nav_name" onclick="loadContent('survey_list')">설문목록</span>
+        </a>
+    </div>
+  </nav>
+</div>
+
+<!-- 메인 페이지 -->
+<div class="row">
+  {% comment %} <div class="col-md-3">
+  </div> {% endcomment %}
+  <div class="col-md-9">
+    <!-- 오른쪽 내용 -->
+    <div class="commu_content" id="content-container">
+    <!-- 내용이 동적으로 로드될 영역 -->
+    </div>
+  </div>
+</div>
+
+ 
+
+<script>
+  // 페이지 로드 시 기본 내용 표시
+  window.onload = function() {
+    loadContent('notice_list');
+  };
+
+ 
+
+  // 내용 로드 함수
+  function loadContent(contentType) {
+    var url;
+    if (contentType === 'notice_list') {
+      url = "{% url 'community:notice_list' %}";
+    } else if (contentType === 'survey_list') {
+      url = "{% url 'community:survey_list' %}";
+    }
+
+    // AJAX 요청을 통해 해당 페이지의 내용 로드
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          // 내용 로드 성공 시, 컨테이너에 내용 삽입
+          document.getElementById('content-container').innerHTML = xhr.responseText;
+        } else {
+          // 내용 로드 실패 시, 에러 메시지 표시
+          document.getElementById('content-container').innerHTML = '내용을 로드할 수 없습니다.';
+        }
+      }
+    };
+    xhr.send();
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,107 @@
+/* 기본 설정: nav_menu_left_mobile 클래스 */
+.nav_menu_left_mobile .nav_menu_left{
+    display: flex;
+  }
+  
+  /* 미디어 쿼리: 화면 크기에 따른 글꼴 크기 및 nav_menu_left_mobile 클래스 display 설정 */
+  @media (max-width: 1300px) {
+    /* nav_menu_left_mobile 클래스 display 설정 */
+    .nav_menu_left_mobile{
+        display: none;
+        }
+  }
+
+/* 미디어 쿼리: 화면 크기에 따른 글꼴 크기 및 nav_menu_left_mobile 클래스 display 설정 */
+@media (max-width: 900px) {
+    /* nav_menu_left_mobile 클래스 display 설정 */
+    .nav_menu_left{
+        display: none;
+        }
+    }
+    .nav_menu_wrapper{
+        width: 0vw;
+    }
+
+.nav_wrapper{
+    background-color: white;
+    border-top: 1px solid #2FC4CE;
+    border-bottom: 1px solid #2FC4CE;
+    height: 90px; /* 헤더 높이를 높이려면 값을 증가시키세요 */
+}
+
+.nav_contain{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav_lay{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%;
+}
+
+.nav_logo{
+    width: 180px;
+}
+
+.nav_logo_link{
+    font-family: sans-serif;
+    color: #2FC4CE;
+    font-weight: 700;
+    font-size: 35px;
+    text-decoration: none;
+}
+
+.nav_logo_link:hover{
+    text-decoration: none;
+    color: #2FC4CE;
+}
+
+.nav_menu_wrapper{
+    width: 75vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav_menu_link{
+    font-family: sans-serif;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #2FC4CE;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.nav_menu_link_active{
+    background-color: #8be4e9;
+    color:#1e1e23;
+    padding: 15px;
+}
+
+.nav_menu_link:hover{
+    text-decoration: none;
+    color:#1e1e23;
+}
+
+.nav_menu_left_login, .nav_menu_left_signup{
+    text-decoration: none;
+    font-family: sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: #2FC4CE;
+}
+
+.nav_menu_left_login:hover, .nav_menu_left_signup:hover{
+    text-decoration: none;
+    color: #2FC4CE;
+}
+
+.nav_menu_left_divider{
+    margin: 0px 5px;
+    color: #2FC4CE;
+}

@@ -1,0 +1,663 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<input type="hidden" value={{first_p}} id="first_p">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0"></script>
+<script src="{% static 'css/myp.js' %}"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="{% static 'css/myp_survey.css' %}">
+
+<div id="surveyModal" class="modal">
+    <div class="modal-content" id="surveyModalContent"></div>
+</div>
+
+<!-- 메인 화면 -->
+<div class="survey_main_wrapper">
+    <div class="survey_main_title">대화 내역 및 분석결과</div>
+    <button class="back_button" onclick="window.history.back();">&lt</button>
+    <div class="content-container">
+        <div class="box-container">
+            <div class="box_menu">
+                {% for persona in personas %}
+                        <div id="simulation{{ forloop.counter }}" class="menu-item" onclick="changePage({{ forloop.counter }}, {{ persona.id }})">코칭 대화 {{ forloop.counter }}</div>
+                {% endfor %}
+            </div>
+            
+            <div class="box_result1">
+                {% for persona in personas %}
+                    <div id="page{{ persona.id }}" style="display: none;">
+                        <div class="box_result1_title">
+                            <div class="talk-info-header">
+                                <h5 style="font-size: 17px; font-weight: 600;">{{ persona.topic_label }}</h5>
+                                {{ persona.department }} - {{ persona.rank }} - {{ persona.age }}세 - {{ persona.gender }} - 경력{{ persona.career }}년차
+                            </div>
+                            <button class="survey_request_btn" onclick="openSurveyModal(this)" data-persona-id="{{ persona.id }}" data-shared="{{ persona.shared }}">{% if persona.shared %}공유 중지{% else %}설문요청하기{% endif %}</button>
+                        </div>
+                        
+                        <div class="talk-info">
+                            {% for content in persona.message_set.all %}
+                                {% comment %} {% if forloop.counter|divisibleby:2 %} {% endcomment %}
+                                {% if content.name == "홍길동" %}
+                                <div class="survey_detail_conversation_list_member">
+                                    <img class="survey_detail_conversation_list_pic_member" src="/static/img/ai_icon.png">
+                                    <div class="survey_detail_conversation_list_txt_member">{{ content.content }}</div>
+                                </div>
+                                {% else %}
+                                <div class="survey_detail_conversation_list_coach">
+                                    <img class="survey_detail_conversation_list_pic_coach" src="/static/img/default.png">
+                                    <div class="survey_detail_conversation_list_txt_coach">{{ content.content }}</div>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="button-container">
+                            <button class="talk-info-button" id="survey_result_confirm_{{ persona.id }}" onclick="survey_check({{ persona.id }})">설문 결과 확인하기</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+
+            <div class="box_result2" id="second_box">
+                <div id="result2">
+                    <h2 class="analysis-header">대화 분석 결과</h2>
+                    <h3 class="analysis-info-header">GROW 결과</h3>
+                    <div class="grow-info">
+                        <div class = "g_b_c">
+                            <canvas id = "grow_bar_chart" class = "grow_bar_chart"></canvas>
+                        </div>
+                    </div>
+                    <h3 class="analysis-info-header">코칭 요인 분석</h3>
+                    <div class="coaching-info">
+                        <canvas id = "coaching_chart_analysis" class = "coaching_chart_analysis"></canvas>
+                    </div>
+                    <div id = "analysis_chat" class="coaching-info-text">
+                    </div>
+                </div>
+                <div class="survey_result_wrapper" id="result3">
+                    <div class="survey_result_summary">
+                        <p class = "survey_result_wrapper_title" style = "font-size: 18px; font-weight: 700; text-align: center;">GROW 코칭 모델기반 설문 결과</p>
+                        <p style = "font-size: 13px; font-weight: 600; text-align: center;">코칭이란 과거의 실수 보다는 미래의 가능성에 초점을 맞추는 것입니다.</p>
+                        <p style = "font-size: 13px; font-weight: 600; text-align: center;">GROW 모델은 Goal, Reality, Options, Will의 약자입니다.</p>
+                        <p style = "font-size: 13px; font-weight: 600; text-align: center;">
+                            · Goal : 목표 - 단기 및 장기 목표 정의<br>
+                            · Reality : 현실 - 현재 상황 및 문제 탐색<br>
+                            · Option : 옵션 - 해결 가능한 옵션 및 평가<br>
+                            · Will : 의지 - 실행할 일과 시기 설정<br>
+                        </p>
+                    </div>
+                    <div class="survey_result_txt" style = "font-size: 14px; font-weight: 500;">이용자님이 공유한 코칭 시뮬레이션에 대해 다른 사용자들이 진행한 <br>GROW 코칭 모델 기반 설문 결과입니다.</div>
+                    <div class="survey_result_grow_wrapper">
+                        <div class="survey_result_gr">
+                            <div class="survey_result_goal">
+                                <canvas class="g_bar_chart" id="g_bar_chart"></canvas>
+                            </div>
+                            <div class="survey_result_reality">
+                                <canvas id = "r_bar_chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="survey_result_ow">
+                            <div class="survey_result_options">
+                                <canvas id = "o_bar_chart"></canvas>
+                            </div>
+                            <div class="survey_result_will">
+                                <canvas id = "w_bar_chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <p style = "font-size: 21px; font-weight: 600;">이용자 의견</p>
+                    <div id ="survey_result_coment"  class="survey_result_coment">
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+    });
+
+    function survey_check(p_id) {
+        $("#result2").toggle();
+        $("#result3").toggle();
+        $.ajax({
+            url: "/mypage/rating_list/" + p_id + "/",
+            type: "POST",
+            data: {
+                message: p_id
+            },
+            success: function(response) {
+                var gpreviousChart = Chart.getChart('g_bar_chart');
+                if (gpreviousChart) {
+                    gpreviousChart.destroy();
+                }
+                var gctx = document.getElementById('g_bar_chart').getContext('2d');
+                // Parse the JSON data
+                var GChartDataElement = JSON.parse(response.G);
+                var GLabels = GChartDataElement.map(item => item.name);
+                var GData = GChartDataElement.map(item => item.value);
+              
+                var myChart = new Chart(gctx, {
+                  type: 'bar',
+                  data: {
+                    labels: GLabels,  // Use the extracted labels
+                    datasets: [{
+                      fill: false,
+                      data: GData,  // Use the extracted values
+                      backgroundColor: [
+                      'rgba(168, 214, 253, 1)',
+                      ],
+                      borderWidth: 1
+                    }]
+                  },
+                  options: {
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    indexAxis: 'x',  // Change this to 'x'
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0, // 소수점 이하 자릿수를 0으로 설정하여 정수로 표시
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        },
+                        autoSkip: true, // 데이터에 맞게 눈금 간격 자동 조정
+                        maxTicksLimit: 5 // 최대 눈금 개수 제한 (원하는 값으로 조정)
+                    }
+                    },
+                    plugins: {
+                      legend: {
+                          display: false
+                      },
+                      title: {
+                        display: true,
+                        text: 'Goal',
+                        font: {
+                            size: 20  // 크기를 원하는 값으로 설정
+                        },
+                        color: '#000000'  // 색상을 원하는 값으로 설정
+                    }
+                    }
+                  }
+                });
+
+                var rpreviousChart = Chart.getChart('r_bar_chart');
+                if (rpreviousChart) {
+                    rpreviousChart.destroy();
+                }
+                var rctx = document.getElementById('r_bar_chart').getContext('2d');
+                // Parse the JSON data
+                var rChartDataElement = JSON.parse(response.R);
+                var rLabels = rChartDataElement.map(item => item.name);
+                var rData = rChartDataElement.map(item => item.value);
+              
+                var myChart = new Chart(rctx, {
+                  type: 'bar',
+                  data: {
+                    labels: rLabels,  // Use the extracted labels
+                    datasets: [{
+                      fill: false,
+                      data: rData,  // Use the extracted values
+                      backgroundColor: [
+                        'rgba(168, 214, 253, 1)',
+                      ],
+                      borderWidth: 1
+                    }]
+                  },
+                  options: {
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    indexAxis: 'x',  // Change this to 'x'
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0, // 소수점 이하 자릿수를 0으로 설정하여 정수로 표시
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        },
+                        autoSkip: true, // 데이터에 맞게 눈금 간격 자동 조정
+                        maxTicksLimit: 5 // 최대 눈금 개수 제한 (원하는 값으로 조정)
+                    }
+                    },
+                    plugins: {
+                      legend: {
+                          display: false
+                      },
+                      title: {
+                        display: true,
+                        text: 'Reality',
+                        font: {
+                            size: 20  // 크기를 원하는 값으로 설정
+                        },
+                        color: '#000000'  // 색상을 원하는 값으로 설정
+                    }
+                    }
+                  }
+                });
+
+                var opreviousChart = Chart.getChart('o_bar_chart');
+                if (opreviousChart) {
+                    opreviousChart.destroy();
+                }
+                var octx = document.getElementById('o_bar_chart').getContext('2d');
+                // Parse the JSON data
+                var oChartDataElement = JSON.parse(response.O);
+                var oLabels = oChartDataElement.map(item => item.name);
+                var oData = oChartDataElement.map(item => item.value);
+              
+                var myChart = new Chart(octx, {
+                  type: 'bar',
+                  data: {
+                    labels: oLabels,  // Use the extracted labels
+                    datasets: [{
+                      fill: false,
+                      data: oData,  // Use the extracted values
+                      backgroundColor: [
+                      'rgba(168, 214, 253, 1)',
+                      ],
+                      borderWidth: 1
+                    }]
+                  },
+                  options: {
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    indexAxis: 'x',  // Change this to 'x'
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0, // 소수점 이하 자릿수를 0으로 설정하여 정수로 표시
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        },
+                        autoSkip: true, // 데이터에 맞게 눈금 간격 자동 조정
+                        maxTicksLimit: 5 // 최대 눈금 개수 제한 (원하는 값으로 조정)
+                    }
+                    },
+                    plugins: {
+                      legend: {
+                          display: false
+                      },
+                      title: {
+                        display: true,
+                        text: 'Option',
+                        font: {
+                            size: 20  // 크기를 원하는 값으로 설정
+                        },
+                        color: '#000000'  // 색상을 원하는 값으로 설정
+                    }
+                    }
+                  }
+                });
+
+                var wpreviousChart = Chart.getChart('w_bar_chart');
+                if (wpreviousChart) {
+                    wpreviousChart.destroy();
+                }
+                var wctx = document.getElementById('w_bar_chart').getContext('2d');
+                // Parse the JSON data
+                var wChartDataElement = JSON.parse(response.W);
+                var wLabels = wChartDataElement.map(item => item.name);
+                var wData = wChartDataElement.map(item => item.value);
+              
+                var myChart = new Chart(wctx, {
+                  type: 'bar',
+                  data: {
+                    labels: wLabels,  // Use the extracted labels
+                    datasets: [{
+                      fill: false,
+                      data: wData,  // Use the extracted values
+                      backgroundColor: [
+                      'rgba(168, 214, 253, 1)',
+                      ],
+                      borderWidth: 1
+                    }]
+                  },
+                  options: {
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    indexAxis: 'x',  // Change this to 'x'
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0, // 소수점 이하 자릿수를 0으로 설정하여 정수로 표시
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
+                                }
+                            }
+                        },
+                        autoSkip: true, // 데이터에 맞게 눈금 간격 자동 조정
+                        maxTicksLimit: 5 // 최대 눈금 개수 제한 (원하는 값으로 조정)
+                    }
+                    },
+                    plugins: {
+                      legend: {
+                          display: false
+                      },
+                      title: {
+                        display: true,
+                        text: 'Will',
+                        font: {
+                            size: 20  // 크기를 원하는 값으로 설정
+                        },
+                        color: '#000000'  // 색상을 원하는 값으로 설정
+                    }
+                    }
+                  }
+                });
+
+                var CommentContainer = $('#survey_result_coment');
+                CommentContainer.empty(); 
+                CommentContainer.append(response.comments)
+            }
+        });
+    }
+
+    function changePage(page, p_id) {
+        console.log("2222")
+        $("#result2").show();
+        $("#result3").hide();
+        const pages = document.querySelectorAll('.box_result1 > div');
+        const menus = document.querySelectorAll('.box_menu > div');
+
+        pages.forEach(page => {
+            page.style.display = 'none';
+        });
+        menus.forEach(menu => { 
+            menu.classList.remove('selected');
+        });
+
+        let currentPage = document.getElementById(`page${p_id}`);
+        let currentMenu = document.getElementById(`simulation${page}`);
+        /*const currentPage = document.getElementById(`page${p_id}`);
+        const currentMenu = document.querySelector(`.box_menu > div:nth-child(${p_id})`);*/
+       /* const currentMenu = document.querySelector(`.box_menu > div[onclick="changePage(${page})"]`);*/
+
+        currentPage.style.display = 'block';
+        currentMenu.classList.add('selected');  /*------------------여기 주석 품 ----------------*/
+
+         $.ajax({
+                url: "/mypage/graph_draw/",
+                type: "POST",
+                data: {
+                    message: p_id
+                },
+                success: function(response) {
+
+                    var previousChart = Chart.getChart('grow_bar_chart');
+                    if (previousChart) {
+                        previousChart.destroy();
+                    }
+                    var context = document.getElementById('grow_bar_chart').getContext('2d');
+                    // Parse the JSON data
+                    var lineChartDataElement = JSON.parse(response.grow);
+                    var growdayLabels = lineChartDataElement.map(item => item.name);
+                    var growdayData = lineChartDataElement.map(item => item.value);
+                  
+                    var myChart = new Chart(context, {
+                      type: 'bar',
+                      data: {
+                        labels: growdayLabels,  // Use the extracted labels
+                        datasets: [{
+                          fill: false,
+                          data: growdayData,  // Use the extracted values
+                          backgroundColor: [
+                            'rgba(145, 211, 139, 1)',
+                            'rgba(255, 227, 155, 1)',
+                            'rgba(180, 232, 255, 1)',
+                            'rgba(220, 170, 237, 1)',
+                            'rgba(217, 217, 217, 1)',
+                          ],
+                          borderWidth: 1
+                        }]
+                      },
+                      options: {
+                        indexAxis: 'x',  // Change this to 'x'
+                        scales: {
+                          y: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0, // 소수점 이하 자릿수를 0으로 설정하여 정수로 표시
+                                callback: function(value, index, values) {
+                                    if (Math.floor(value) === value) {
+                                        return value;
+                                    }
+                                }
+                            },
+                            autoSkip: true, // 데이터에 맞게 눈금 간격 자동 조정
+                            maxTicksLimit: 10 // 최대 눈금 개수 제한 (원하는 값으로 조정)
+                        }
+                        },
+                        plugins: {
+                          legend: {
+                              display: false
+                          },
+                          title: {
+                              display: false,
+                              text: 'GROW 코칭 결과'
+                          }
+                        }
+                      }
+                    });
+
+                    var previousChart2 = Chart.getChart('coaching_chart_analysis');
+                    if (previousChart2) {
+                        previousChart2.destroy();
+                    }
+                    var ctx = document.getElementById('coaching_chart_analysis').getContext('2d');
+                    var pieChartDataElement = JSON.parse(response.class);
+                    var labels = pieChartDataElement.map(item => item.name);
+                    var data = pieChartDataElement.map(item => item.value);
+                    
+                
+                    var myPieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: [
+                                    'rgba(143, 170, 220, 1)',
+                                    'rgba(244, 177, 131, 1)',
+                                    'rgba(169, 209, 142, 1)',
+                                    'rgba(255, 217, 102, 1)',
+                                    'rgba(250, 166, 178, 1)',
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                    labels: {
+                                        boxWidth: 10, // 원하는 크기로 조절
+                                        font: {
+                                            size: 12, // 원하는 폰트 크기로 조절
+                                        },
+                                    },
+                                },
+                                datalabels: {
+                                    formatter: (value, ctx) => {
+                                        let sum = 0;
+                                        let dataArr = ctx.chart.data.datasets[0].data;
+                                        dataArr.map(data => {
+                                            sum += data;
+                                        });
+                                        let percentage = (value*100 / sum).toFixed(2)+"%";
+                                        return percentage;
+                                    },
+                                    color: '#fff',
+                                }
+                            }
+                        }
+                    });
+                    var chatContainer = $('#analysis_chat');
+                    chatContainer.empty();
+                    chatContainer.append(
+                        '<span class = "abc">{{ user.username }} 님의 코칭 분석 결과.</span><br><br>'
+                        + '<span class = "abc">(인정) 대화상대를 믿고 의지를 다질 수 있도록 하는 유형의 질문을 </span>'
+                        + response.recognition
+                        + "<span class = 'abc'> 하신 것으로 나타납니다. 대화상대가 스스로 해결할 능력을 가지고 있다고 믿을 수 있도록 질문을 유도하는 것은 코칭 대화에서 중요한 요소입니다.<br><br></span>"
+                        + '<span class = "abc">(존중) 대화상대를 존중하는 유형의 질문을 </span>'
+                        + response.respect
+                        + "<span class = 'abc'> 하신 것으로 나타납니다. 대화상대의 동의를 구하며 심리적으로 지지하고 도움을 주는 것은 코칭 대화에서 중요한 요소입니다.<br><br></span>"
+                        + "<span class = 'abc'>(관점전환) 대화상대가 기존과 다른 관점에서 해결책을 찾도록 돕는 유형의 질문을 </span>"
+                        + response.perspective
+                        + "<span class = 'abc'>  하신 것으로 나타납니다. 대화상대가 스스로 해결책을 찾을 수 있도록 질문을 유도하는 것은 코칭 대화에서 중요한 요소입니다.<br><br></span>"
+                        + "<span class = 'abc'>(판단) 대화상대를 판단하는 유형의 질문을 </span>"
+                        + response.judgment
+                        + "<span class = 'abc'> 하신 것으로 나타납니다. 대화상대가 자율성을 가질 수 있도록 개인의 의견이 들어간 질문보다 개방적인 질문을 통해 대화상대가 스스로 해결 방안을 찾을 수 있도록 유도하는 것은 중요한 요소입니다.<br><br></span>"
+                        + "<span class = 'abc'>(부정) 대화상대를 부정하는 유형의 질문을 </span>"
+                        + response.negation
+                        + "<span class = 'abc'> 하신 것으로 나타납니다. 대화상대가 부정적으로 느껴지지 않도록 부정적인 질문보다 긍정적인 질문을 통해 대화의 분위기를 긍정적으로 유도하는 것은 중요한 요소입니다.<br></span>"
+                        );
+
+                },
+                error: function(xhr, errmsg, err) {
+                    console.log(errmsg, err);
+                }
+         });
+    }
+
+    window.onload = function() {
+        
+        const hasMessages = {% if messages %}true{% else %}false{% endif %};
+        
+        if (!hasMessages) {
+            window.alert("대화한 내역이 없습니다.");
+            window.location.href = "/rpg"; // 페르소나 페이지로 이동합니다.
+        } else {
+            changePage(1, document.getElementById("first_p").value); // 페이지 1부터 표시하도록 변경
+            $("#result2").show();
+            $("#result3").hide();
+        }
+    }
+
+    function openSurveyModal(button) {
+        var personaId = button.dataset.personaId;
+        var shared = button.dataset.shared;
+      
+        if (shared === 'True') {
+          // 공유 중지
+          $.ajax({
+            url: "/mypage/stop_sharing/" + personaId + "/",
+            type: "POST",
+            headers: { "X-CSRFToken": '{{csrf_token}}' },
+            datatype: 'json',
+            data: {
+              message: personaId
+            },
+            success: function(response) {
+                if (response.success) {
+                    // 공유 중지 후 버튼 텍스트 업데이트
+                    button.innerHTML = "설문요청하기";
+                    button.dataset.shared = "False";
+                } else {
+                    // 실패했을 경우에 대한 처리
+                    console.error("Stop sharing failed");
+                  }
+                }
+              });
+        } else {
+          // Display share persona form
+          // '<h1>' + shared + ', ' + personaId + '</h1>' +
+          // Open the modal
+          $('#surveyModal').show();
+
+          $('#surveyModalContent').html(
+            '<div class="survey_popup_title">설문요청</div>' +
+            '<form action="/mypage/share_persona/' + personaId + '/" method="POST">' +
+            '{% csrf_token %}' +
+            '<div class="survey_popup_content">' +
+            '<input type="hidden" name="persona_id" value="' + personaId + '">' +
+            '<input class="survey_popup_content_title" type="text" name="title" placeholder="제목">' +
+            '<textarea cols="30" rows="20" class="survey_popup_content_content" name="content" height="50px" placeholder="설정하신 페르소나를 알려주세요."></textarea>' +
+            '</div>' +
+            '<div class="survey_popup_btn">' +
+            '<button class="survey_popup_share_btn" type="submit">공유 시작</button>' +
+            '<button class="survey_popup_exit_btn" type="button" id="close-button">나가기</button>' +
+            '</div>' +
+            '</form>'
+          );
+
+          document.getElementById('surveyModalContent').style.display = 'block';
+          document.getElementById('surveyModal').style.display = 'block';
+
+          var connectAnonymousButton = document.getElementById('connectAnonymousButton');
+          var surveyMyButton = document.getElementById('surveyMyButton');
+
+          connectAnonymousButton.addEventListener('click', function (event) {
+          document.getElementById('surveyModalContent').style.display = 'none';
+          document.getElementById('surveyMy').style.display = 'block';
+         });
+
+          surveyMyButton.addEventListener('click', function (event) {
+          document.getElementById('surveyModalContent').style.display = 'none';
+          document.getElementById('surveyMy').style.display = 'none';
+         });
+        }
+      
+      
+        // Close the modal when close button is clicked
+        $('#close-button').click(function () {
+          $('#surveyModal').hide();
+        });
+      
+        // Form validation
+        var form = document.querySelector("#surveyModalContent form");
+        var input = form.querySelector("input[name='title']");
+        var textarea = form.querySelector("textarea[name='content']");
+        var button = form.querySelector("button[type='submit']");
+      
+        button.addEventListener("click", function (event) {
+          if (input.value.trim() === "" || textarea.value.trim() === "") {
+            event.preventDefault(); // 폼 제출 막기
+            alert("제목과 내용을 작성해주세요.");
+          }
+        });
+      }
+      
+      $('#surveyModal').on('hidden.bs.modal', function () {
+        // Update the survey buttons after modal is closed
+        var surveyButtons = document.getElementsByClassName('survey-button');
+        Array.from(surveyButtons).forEach(function (button) {
+          var personaId = button.dataset.personaId;
+          var shared = button.dataset.shared;
+      
+          if (shared === 'true') {
+            button.innerHTML = '공유 중지';
+          } else {
+            button.innerHTML = '공유 시작';
+          }
+        });
+      });
+</script>
+
+{% endblock %}

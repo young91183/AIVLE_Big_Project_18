@@ -1,0 +1,32 @@
+{% comment %} 설문 항목 리스트 {% endcomment %}
+{% load static %}
+{% block content %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static '/community/survey.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script> <!-- IONICONS -->
+
+<div class="survey_list_wrapper">
+    <div class="survey_list_title">설문 목록</div>
+    <div class="survey_list_content">
+    {% for survey in surveys %}
+        <div class="survey_list_content_top">
+            <div class="survey_list_content_title"><a class="survey_list_content_title_link" href="{% url 'community:survey_detail' survey.id %}">{{ survey.title }}</a></div>
+            <div class="survey_list_content_producer">{{ survey.author }}</div>
+        </div>
+        <div class="survey_list_content_bottom">
+            <div class="survey_list_content_text">{{ survey.content }}</div>
+            {% if survey.id in user_rated_surveys %}
+            <div class="survey_list_content_complete">[참여완료]</div>
+            {% endif %}
+        </div>
+    <hr class="survey_list_hr">
+    {% empty %}
+        <div>등록된 설문이 없습니다.</div>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

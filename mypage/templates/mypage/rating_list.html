@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>{{ persona.department }} - {{ persona.rank }} 체크리스트 결과</h1>
+    <ul>
+        <li>G: {{ group_counts.G.0 }}, {{ group_counts.G.1 }}, {{ group_counts.G.2 }}, {{ group_counts.G.3 }}</li>
+        <li>R: {{ group_counts.R.0 }}, {{ group_counts.R.1 }}, {{ group_counts.R.2 }}, {{ group_counts.R.3 }}</li>
+        <li>O: {{ group_counts.O.0 }}, {{ group_counts.O.1 }}, {{ group_counts.O.2 }}, {{ group_counts.O.3 }}</li>
+        <li>W: {{ group_counts.W.0 }}, {{ group_counts.W.1 }}, {{ group_counts.W.2 }}, {{ group_counts.W.3 }}</li>
+    </ul>
+    <ul>
+        {% for rating in ratings %}
+            {% if rating.comment %}
+                <li>코멘트: {{ rating.comment }}</li>
+            {% endif %}
+            <hr>
+        {% endfor %}
+    </ul>
+{% endblock %}

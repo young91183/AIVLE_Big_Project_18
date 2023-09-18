@@ -1,0 +1,164 @@
+.topic_label_graph {
+    width: 400px;
+    height: 400px; 
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .sidebar {
+    position: fixed;
+    width: 250px;
+    min-height: 100vh;
+    background-color: #002C4D;
+    padding: 0;
+    margin: 0;
+    top: 0;
+  }
+  
+  .sidebar a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+  }
+
+  .separator {
+    background-color: white;
+    height: 1px;
+    width: 80%;
+    margin: 18px 0;
+    margin-left: 20px;
+  }
+
+  .kt-coaching {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-left: 20px;
+  }
+
+  .kt-coaching:hover {
+      color: #4C92C7;
+  }
+
+  .inside-info {
+      margin-left: 19px;
+      font-size: 14px;
+  }
+
+  .inside-info:hover {
+      color: #4C92C7;
+  }
+
+  .main-top {
+      position: fixed;
+      width: calc(100% - 250px); 
+      height: 85px;
+      background-color: #002C4D;
+      padding: 0;
+      margin: 0;
+      top: 0;
+      right: 0;
+  }
+
+  .main-top-text {
+      font-size: 28px;
+      font-weight: 500;
+      color: white;
+      margin-top: 20px;
+      margin-left: 20px;
+  }
+
+  .main-section {
+      background-color: lightgray;
+  }
+
+  .main-content {
+      margin-top: 85px;
+      margin-left: 270px;
+      padding: 10px;
+      width: calc(100% - 260px - 17px); 
+      height: 664px;
+      box-sizing: border-box;
+      background-color: lightgray; 
+  }
+
+  .main-graph-box1 {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* 변경된 부분 */
+      width: 100%; /* 변경된 부분 */
+      height: 290px
+  }
+
+  .main-graph-box2 {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start; /* 변경된 부분 */
+      width: 100%; /* 변경된 부분 */
+      height: 290px
+  }
+  
+  .main-graph-box {
+      margin-top: 10px;
+      margin-bottom: 15px;
+      height: 300px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center; /* 변경된 부분 */
+  }
+
+  .graph1-title, .graph2-title{
+      margin-left: 0px;
+      background-color: lightgray;
+  }
+
+  .graph1-title {
+      padding: 5px;
+      left: 13px;
+      font-size: 20px;
+      font-weight: bold;
+      width: 50%;
+      height: 25px;
+  }
+
+  .graph2-title{
+      padding: 5px;
+      font-size: 20px;
+      font-weight: bold;
+      width: 50%;
+      height: 25px;
+  }
+
+
+  .graph1, .graph2{
+      background-color: #ffff;
+      border-radius: 5px;
+      margin-right: 50px;
+  }
+
+  .graph1, .graph2{
+      position: relative;
+      width: 100%;
+      height: 235px;
+  }
+
+  .arrow {
+    float: right;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 150px;
+  }
+
+  .statistics {
+      display: inline-block;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      padding: 8px 16px;
+  }

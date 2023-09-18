@@ -1,0 +1,385 @@
+    {% extends "base.html" %}
+    {% load static %}
+    {% block content %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    
+    {% if popup %}
+    <div class="alert alert-success alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <p>{{ message }}</p>
+    </div>
+    {% endif %}
+
+    <style>
+        body {
+            background-color: #E9F2FF;
+            font-family: 'Montserrat', sans-serif;
+            min-height: calc(100vh - 40vw);
+        }
+
+        .content-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            width: 80%;
+            margin: 40px auto;
+        }
+
+        h1 {
+            text-align: left;
+            width: 80%;
+            padding-top: 10px;
+            padding-bottom: 4px;
+            padding-left: 70px;
+            font-size: 30px;
+        }
+
+        .box {
+            display: flex;
+            flex-direction: column;
+            justify-content: top;
+            align-items: center;
+            width: 280px;
+            height: 500px;
+            border-radius: 20px;
+            background-color: white;
+            box-shadow: 2px 5.5px 10px rgba(0, 0, 0, 0.3);
+            animation: floating 3s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-10px);
+            }
+            100% {
+              transform: translateY(0);
+            }
+        }
+          
+
+        .img_logo {
+            width: 15%;
+            height: 20%;
+            object-fit: contain;
+        }
+
+        .img_profile {
+            width: 60%;
+            height: 35%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile_info {
+            margin-top: 10px;
+            margin-bottom: 7px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 0.7;
+            font-size: 20px;
+        }
+
+        .info_box_body {
+            display: flex;
+            flex-direction: column;
+            justify-content: top;
+            align-items: center;
+            margin-right: 70px;
+            margin-bottom: 40px;
+            margin-top: 20px;
+            width: 700px;
+            height: 500px;
+            background-color: #E9F2FF;
+        }
+
+        .info_box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            font-weight: 530;
+            font-size: 20px;
+            padding: 25px;
+            margin-top: 20px;
+            margin-right: 70px;
+            margin-bottom: 30px;
+            width: 600px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: white;
+            box-shadow: 2px 5.5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .info_box_pw {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            font-weight: 530;
+            font-size: 20px;
+            padding: 25px;
+            margin-top: 20px;
+            margin-right: 70px;
+            margin-bottom: 30px;
+            width: 600px;
+            height: 70px;
+            border-radius: 20px;
+            background-color: white;
+            box-shadow: 2px 5.5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .username {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .profile_info > p + p {
+            margin-top: 10px;
+            font-weight: normal;
+            font-size: 15px;
+        } 
+
+        .edit_button {
+            margin-left: 10px;
+            padding: 5px 15px;
+            background-color: #99b4da;
+            text-align: center;
+            font-size: 16px;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .edit_button:hover {
+            background-color: #134971;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 250px;
+            height: 30px;
+            margin-left: 220px;
+        }
+
+        .info_box_pw_input input[type="password"] {
+            width: 180px;
+            height: 30px;
+            text-align: center;
+            margin-right: 3px;
+        }
+
+        .back_button {
+            position: absolute;
+            top: 15%;
+            right: 30px;
+            font-size: 18px;
+            padding: 6px 12px;
+            background-color: #99b4da;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+      
+        .back_button:hover {
+            background-color: #134971;
+        }
+
+        .signup_error_message_myp{
+            font-size : 12px;
+            color : #red;
+        }
+
+        .info_box_pw_input {
+            flex-direction: column;
+        }
+
+
+    </style>
+
+
+    <h1>개인 정보 수정</h1>
+    <button class="back_button" onclick="window.history.back();">&lt</button>
+    <div class="content-container">
+        <div class="box">
+            <img class="img_logo" src="/static/img/kt.png" alt="kt 로고 이미지" />
+            {% if user.age and user.gender %}
+                <img class="img_profile" id="myp_info_image" src="/static/img/won.png" alt="프로필 이미지" />
+                <script>
+                function updateMypInfoImage(age, gender) {
+                    let imageElement = document.getElementById("myp_info_image");
+                    let ageGroup = null;
+                    let imageName = "";
+        
+                    if (age >= 18 && age <= 29) {
+                        ageGroup = "young";
+                    } else if (age >= 30 && age <= 39) {
+                        ageGroup = "middle";
+                    } else if (age >= 40 && age <= 49) {
+                        ageGroup = "senior";
+                    } else if (age >= 50 && age <= 59) {
+                        ageGroup = "elder";
+                    } else if (age >= 60) {
+                        ageGroup = "old";
+                    }
+
+                    gender = gender.toUpperCase();
+        
+                    if (gender == "M" && ageGroup !== null) {
+                        imageName = ageGroup + "_male" + ".png";
+                    } else if (gender == "F" && ageGroup !== null) {
+                        imageName = ageGroup + "_female" + ".png";
+                    } else {
+                        imageName = "won";
+                    }
+        
+                    if (imageName.length > 0) {
+                        imageElement.src = "/static/img/" + imageName;
+                    }
+                }
+        
+                updateMypInfoImage({{ user.age }}, "{{ user.gender }}");
+                </script>
+            {% endif %}
+
+            <div class="profile_info">
+                <p class="username">{{ user.username }}</p>
+                <p>{{ user.nickname }}</p>
+                <p>{{ user.userid }}</p>
+                <p>{{ user.email }}</p>
+            </div>
+        </div>
+        <div class="info_box_body">
+            <!-- 부서 수정 -->
+            <form method="post" action="{% url 'mypage:update_profile' %}">
+                {% csrf_token %}
+                <div class="info_box">
+                    <div>직군</div>
+                    <div class="options-container">
+                        <span>{{ user.department }}</span> 
+                        <select name="department" id="department" required>
+                            <option value="none" selected>직군을 선택하세요</option>
+                            <option value="B2C">B2C</option>
+                            <option value="네트워크">네트워크</option>
+                            <option value="B2B">B2B</option>
+                            <option value="R&D">R&D</option>
+                            <option value="사업">사업부서</option>
+                            <option value="지원">지원부서</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="edit_button" name="update-department">수정</button>
+                </div>                
+            </form>
+            <form method="post" action="{% url 'mypage:update_profile' %}">
+                {% csrf_token %}
+                <div class="info_box">
+                    <div>직급</div>
+                    <div class="options-container">
+                        <span>{{ user.rank }}</span>
+                        <select name="rank" id="rank" required>
+                            <option value="none" selected>직급을 선택하세요</option>
+                            <option value="사원">사원</option>
+                            <option value="대리">대리</option>
+                            <option value="과장">과장</option>
+                            <option value="차장">차장</option>
+                            <option value="부장">부장</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="edit_button" name="update-rank">수정</button>
+                </div>                
+            </form>
+            <!-- 비밀번호 수정 -->
+<form method="post" action="{% url 'mypage:update_profile' %}" id="update-password-form">
+    {% csrf_token %}
+    <div class="info_box_pw">
+        <div>비밀번호</div>
+        <div class="info_box_pw_input">
+            <!-- 비밀번호 수정 -->
+            <input type="password" name="password_1" id='password_1' placeholder="비밀번호를 입력하세요." required/>
+            <div class="signup_error_message_myp" id="password_1-error"></div>
+
+            <input type="password" name="password_2" id='password_2' placeholder="비밀번호를 다시 입력하세요." required/>
+            <div class="signup_error_message_myp" id="password_2-error"></div>
+        </div>
+        <button type="submit" class="edit_button" name="update-password" id="update-password-button" disabled>수정</button>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#password_1, #password_2').on('input', function () {
+            updatePasswordFormState();
+        });
+
+        function updatePasswordFormState() {
+            updatePassword1ErrorMessage();
+            updatePassword2ErrorMessage();
+            
+            const errorMessage1 = $('#password_1-error').text();
+            const errorMessage2 = $('#password_2-error').text();
+
+            if (errorMessage1 === '사용할 수 있습니다.' && errorMessage2 === '비밀번호가 같습니다.') {
+                $('#update-password-button').prop('disabled', false);
+            } else {
+                $('#update-password-button').prop('disabled', true);
+            }
+        }
+
+        function updatePassword1ErrorMessage() {
+            const input = $('#password_1').val();
+            const hasMinLength = input.length >= 8;
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(input);
+            const hasLetter = /[a-zA-Z]/.test(input);
+            const hasNumber = /[0-9]/.test(input);
+            let errorMessage = '';
+
+            if (!hasMinLength) {
+                errorMessage = '비밀번호는 최소 8글자 이상이어야 합니다.';
+            } else if (!(hasSpecialChar && hasLetter && hasNumber)) {
+                errorMessage = '비밀번호는 특수문자, 영어, 숫자를 혼용하여야 합니다.';
+            } else {
+                errorMessage = '사용할 수 있습니다.';
+            }
+
+            $('#password_1-error').text(errorMessage);
+        }
+
+        function updatePassword2ErrorMessage() {
+            const password1Value = $('#password_1').val();
+            const password2Value = $('#password_2').val();
+            let errorMessage = '';
+
+            if (password1Value !== password2Value) {
+                errorMessage = '비밀번호가 일치하지 않습니다.';
+            } else if (password1Value !== '' && $('#password_1-error').text() === '사용할 수 있습니다.') {
+                errorMessage = '비밀번호가 같습니다.';
+            }
+
+            $('#password_2-error').text(errorMessage);
+        }
+
+        // 초기 폼상태 설정
+        updatePasswordFormState();
+    });
+</script>
+
+{% endblock %}

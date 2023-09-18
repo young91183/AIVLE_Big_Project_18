@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% comment %} 설문 세부사항: 게시글 {% endcomment %}
+{% load static %}
+
+{% block content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static '/community/survey.css' %}">
+<link rel="stylesheet" href="{% static '/community/community.css' %}">
+{% comment %} <script src="{% static 'community/survey_detail.js' %}"></script> {% endcomment %}
+<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script> <!-- IONICONS -->
+
+
+<!-- 헤더 -->
+{% comment %} <div class="commu_head_wrapper">
+    <div class="commu_head_menu_wrapper" style="display: inline;">
+        <a class="commu_head_menu"><ion-icon name="information-circle" class="commu_head_menu_icon"></ion-icon></a>
+        <a href="{% url 'community:commu_list' %}" class="commu_head_menu"><ion-icon name="exit-outline" class="commu_head_menu_icon"></ion-icon></a>
+      </div>
+  </div> {% endcomment %}
+
+<!-- 메인 -->
+<div class="survey_detail_wrapper">
+    <button class="back_button" onclick="window.history.back();">&lt</button>
+    <div class="survey_detail_contain">
+        <div class="survey_detail_head_wrapper">
+            <div class="survey_detail_head_title">
+                설문 요청
+            </div>
+            <div class="survey_detail_head_content">
+                <div>제목: {{ survey.title }}</div>
+                <div>내용: {{ survey.content }}</div>
+            </div>
+        </div>
+        
+        <div class="survey_detail_content_wrapper">
+            <div class="survey_detail_conversation_contain">
+                <div class="survey_detail_conversation_title">{{ survey.author }} 님의 코칭 대화</div>
+                <div class="survey_detail_conversation_wrapper">
+                    {% comment %} {{ message.name }} {% endcomment %}
+                    {% for message in messages %}
+                        {% comment %} {% if forloop.counter|divisibleby:2 %} {% endcomment %}
+                        {% if message.name == "홍길동" %}
+                        <div class="survey_detail_conversation_list_member">
+                            <img class="survey_detail_conversation_list_pic_member" src="/static/img/young_male.png">
+                            <div class="survey_detail_conversation_list_txt_member">{{ message.content }}</div>
+                        </div>
+                        {% else %}
+                        <div class="survey_detail_conversation_list_coach">
+                            <img class="survey_detail_conversation_list_pic_coach" src="/static/img/default.png">
+                            <div class="survey_detail_conversation_list_txt_coach">{{ message.content }}</div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="survey_detail_checklist_contain">
+                <div class="survey_detail_checklist_wrapper">
+                    <h4>체크리스트</h4>
+                    <form id="ratingForm" method="POST" action="{% url 'community:survey_detail' survey.id %}">
+                        {% csrf_token %}
+                        {% for item in checklist %}
+                        <div class="survey_detail_checklist_item_wrapper">
+                            {% with index=forloop.counter %}
+                            <div class="survey_detail_checklist_item">{{index}}. {{ item }}</div>
+                            <label><input type="radio" name="rating_{{ forloop.counter0 }}" value="1">매우 그렇지 않다</label>
+                            <label><input type="radio" name="rating_{{ forloop.counter0 }}" value="2">그렇지 않다</label>
+                            <label><input type="radio" name="rating_{{ forloop.counter0 }}" value="3">그렇다</label>
+                            <label><input type="radio" name="rating_{{ forloop.counter0 }}" value="4">매우 그렇다</label>
+                            {% endwith %}
+                        </div>
+                        <hr class="survey_detail_checklist_item_hr">
+                        {% endfor %}
+                        <div class="form-group">
+                            <label for="comment">더 하고 싶은 말이 있다면 자유롭게 적어주세요</label>
+                            <textarea name="comment" id="comment" class="form-control"></textarea>
+                        </div>
+                        <button class="survey_detail_submit_btn" type="submit">설문완료</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% comment %} <a href="{% url 'community:commu_list' %}">목록</a> {% endcomment %}
+    </div>
+</div>
+
+<script>
+    document.getElementById("ratingForm").addEventListener("submit", function(event) {
+        var checklist = document.getElementsByClassName("survey_detail_checklist_item_wrapper");
+        var allChecked = true; // 모든 항목이 체크되었는지 확인하기 위한 변수
+    
+        for (var i = 0; i < checklist.length; i++) {
+            var radios = checklist[i].querySelectorAll("input[type='radio']");
+            var checked = false;
+    
+            for (var j = 0; j < radios.length; j++) {
+                if (radios[j].checked) {
+                    checked = true;
+                    break;
+                }
+            }
+    
+            if (!checked) {
+                allChecked = false;
+                break;
+            }
+        }
+    
+        if (!allChecked) {
+            event.preventDefault(); // 폼 제출 막기
+            alert("모든 항목을 완성해주세요.");
+        } else {
+            alert("설문 제출이 정상적으로 완료되었습니다.");
+        }
+    });
+
+    document.getElementById("ratingForm").addEventListener("submit", function(event) {
+
+        var checklist = document.getElementsByClassName("survey_detail_checklist_item_wrapper");
+
+        var allChecked = true; // 모든 항목이 체크되었는지 확인하기 위한 변수
+
+        for (var i = 0; i < checklist.length; i++) {
+            var radios = checklist[i].querySelectorAll("input[type='radio']");
+            var checked = false;
+
+            for (var j = 0; j < radios.length; j++) {
+                if (radios[j].checked) {
+                    checked = true;
+                    break;
+                }
+            }
+
+            if (!checked) {
+                allChecked = false;
+                break;
+            }
+        }
+
+        if (!allChecked) {
+            event.preventDefault(); // 폼 제출 막기
+            alert("모든 항목을 완성해주세요.");
+        } else {
+            alert("설문 제출이 정상적으로 완료되었습니다.");
+        }
+    });
+</script>
+{% endblock %}

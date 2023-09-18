@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'rpg/loading.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'rpg/loading.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+<!-- 로딩창 -->
+<div class="analysis_loading">
+    <div>AI 대화 분석을 통해 에이블 님의 코칭 대화에서 코칭 리더십 요인을 분석하고 있습니다.</div>
+    <img src="/static/img/loading.gif" alt="로딩이미지">
+    <div>잠시만 기다려 주세요.</div>
+</div>
+{% endblock %}

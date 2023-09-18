@@ -1,0 +1,115 @@
+.header {
+    background-color: white;
+    border-top: 1px solid #2FC4CE;
+    border-bottom: 1px solid #2FC4CE;
+    height: 90px; /* 헤더 높이를 높이려면 값을 증가시키세요 */
+  }
+  
+  .container_h {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1500px;
+    margin: 0 30px;
+    padding: 0 30px;
+    height: 92px;
+    /* background-color: #2FC4CE; */
+  }
+  
+  .logo-link{
+    font-family: sans-serif;
+    color: #2FC4CE;
+    font-weight: 700;
+    font-size: 33px;
+    text-decoration: none;
+    color: #2FC4CE;
+    /* line-height: 92px; */
+  }
+
+  .logo-link:hover{
+    text-decoration: none;
+  }
+
+
+  .login-link,
+  .signup-link {
+    text-decoration: none;
+    color: #2FC4CE;
+    /* height: 92px; 헤더 높이와 일치하게 변경 */
+    /* line-height: 92px; 텍스트가 헤더 높이와 일치하게 세로 가운데 정렬 */
+    margin-left: auto;
+    font-weight: 500;
+}
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-header {
+    font-size: 17.5px;
+    font-weight: 500px;
+    /* margin-left: 80px; */
+    text-decoration: none;
+    font-weight: 600;
+    color: #2FC4CE;
+    /* height: 92px; 헤더 높이와 일치하게 변경 */
+    /* line-height: 92px; 텍스트가 헤더 높이와 일치하게 세로 가운데 정렬 */
+    padding: 15px 20px;
+    border-radius: 12px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .nav-right {
+    display: flex;
+    align-items: center;
+    /* margin-left: auto; Log In과 Sign Up을 오른쪽 끝으로 이동 */
+  }
+  
+  .divider {
+    color: #2FC4CE;
+    margin: 0 0;
+    line-height: 92px;
+    margin-left: 0.5vw; 
+  }
+  
+  .menu-group {
+    display: flex;
+    /* margin-left: 35px; */
+    /* margin-right: 0px; */
+}
+
+  .menu-group > *:not(:last-child) {
+    margin-right: 10px;
+  }
+
+  .menu-header:hover {
+    cursor: pointer;
+    /* color: #00365f; */
+    background-color: rgba(47, 196, 206, 0.5);
+    text-decoration: none;
+    color: white;
+  }
+  
+  .active-menu {
+    display: inline-flex;
+    align-items: center;
+    color: #FFFF;
+    background-color: #2FC4CE;
+    margin-top: 20px;
+    height: 50px;
+    padding: 0px 10px;
+    border-radius: 10px;
+}
+
+.active-menu-myp {
+  display: inline-flex;
+  align-items: center;
+  color: #FFFF;
+  background-color: #2FC4CE;
+  margin-top: 27px;
+  height: 40px;
+  padding: 0px 10px;
+  border-radius: 10px;
+}
+

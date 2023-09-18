@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<script src="{% static 'home.js' %}" defer></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="go-home-button" id="goHomeButton">처음으로</div>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'home.css' %}">
+
+<div id="user-data" data-user-is-authenticated="{{ user.is_authenticated }}"></div>
+
+<!-- Modal footer 개인정보 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="exampleModalLabel">개인 정보 처리 방침</div>
+        </div>
+        <div class="modal-body">
+            <img class="person_info" src="/static/account/img/personal_info.png" alt="개인정보처리방침">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal footer 제휴문의 -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="exampleModalLabel2">제휴 문의</div>
+        </div>
+        <div class="modal-body">
+            제휴 문의는 총괄 책임자에게 연락주시기 바랍니다.
+            <br>
+            <br>
+            Name : Lee Hyun-ji
+            <br>
+            <br>
+            Rank : Boss
+            <br>
+            <br>
+            E-mail : dlguswl13681368@gmail.com
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Modal footer 고객센터 -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel3">고객 센터</h5>
+        </div>
+        <div class="modal-body">
+            고객 문의는 총괄 책임자가 직접 처리합니다. 
+            <br>
+            <br>
+            Name : Lee Hyun-ji
+            <br>
+            <br>
+            Rank : Boss
+            <br>
+            <br>
+            E-mail : dlguswl13681368@gmail.com
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="home_wrapper">
+    <div class="home_container"> <!-- 1번째 스크롤 -->
+        <div class="home_content">
+            <div class="home_content_text"> <!-- 글자 섹션 -->
+                <div class="home_text_ani" style="animation-delay: 0s;">환영합니다.</div>
+                <div class="home_text_ani" style="animation-delay: 1s;">KT AI 챗봇과 함께하는</div>
+                <div class="home_text_ani" style="animation-delay: 2s;">자가 코칭 훈련 서비스입니다.</div>
+                    <button class="home_start_btn" id="startBtn"> 
+                        <span class="triangle">&#9658;</span>
+                        START
+                    </button>
+            </div>
+            <div class="home_content_image"> <!-- 이미지 섹션 -->
+                <img class="home_robot" style="animation-delay: 0s;" src="/static/image/robot_lay.png" alt="로봇img">
+            </div>
+        </div>
+        <div class="home_bottom">
+            <a href="#home_intro" class="home_bottom_go">
+                <div class="home_bottom_text"> SERVICE INTRO</div>
+                <img class="home_bottom_arrow" src="/static/image/white_down_arrow.png" alt="아래화살표">   
+            </a>
+        </div>
+    </div>
+
+
+      <!-- 서비스소개 -->
+    <div id="home_intro" class="intro_container"> <!-- 2번째 스크롤 -->
+        <div class="intro_title">
+            <div class="intro_title_text"> Introduction to Services</div>
+        </div>
+        <div class="intro_content">
+            <div class="intro_content_box">
+                <div class="intro_content_img_box">
+                    <img class="intro_content_img" src="/static/image/chatbot.png" alt="챗봇">
+                </div>
+                <div class="intro_content_txt_box">
+                    <div class="intro_content_txt_title">Chat-GPT기반 코칭 훈련 서비스</div>
+                    <br>
+                    가상의 코칭 대상을 설정하여<br> 
+                    자가 코칭 훈련이 가능
+                </div>
+            </div>
+            <div class="intro_content_box">
+                <div class="intro_content_img_box">
+                    <img class="intro_content_img" src="/static/image/voice.png" alt="음성인식">
+                </div>
+                <div class="intro_content_txt_box">
+                    <div class="intro_content_txt_title">음성 채팅 서비스</div>
+                    <br>
+                    음성 채팅 기능 제공 및 목소리 기반<br>
+                    코칭 분위기 분석 
+                </div>
+            </div>
+            <div class="intro_content_box">
+                <div class="intro_content_img_box">
+                    <img class="intro_content_img" src="/static/image/result.png" alt="결과확인">
+                </div>
+                <div class="intro_content_txt_box">
+                    <div class="intro_content_txt_title">AI 코칭 리더십 역량 분석</div>
+                    <br>
+                    딥러닝 기반 GROW 코칭 분석<br>
+                    및 리더십 역량 피드백 제공
+                </div>
+            </div>
+        </div> 
+        <div class="intro_bottom">
+            <a href="#home_use" class="intro_bottom_go">
+                <div class="intro_bottom_text"> HOW TO USE</div>
+                <img class="intro_bottom_arrow" src="/static/image/black_down_arrow.png" alt="아래화살표">   
+            </a>
+        </div>  
+    </div>
+
+
+
+    <!-- 서비스 이용 방법 -->
+    <div id="home_use" class="use_container"> <!-- 3번째 스크롤 -->
+        <div class="use_title">
+            <div class="use_title_text"> How to Use The Service</div>
+        </div>
+        <div class="use_content">
+            <div class="use_content_box">
+                <div class="use_content_img_box">
+                    <img class="use_content_img" src="/static/image/persona.png" alt="페르소나 설정">
+                </div>
+                <div class="use_content_txt_box">
+                    <h3 class="use_content_txt_title">페르소나 설정</h3>
+                    <p>코칭 대상의 부서, 직급, 연령, 성별, <br>경력, 목소리, 대화 주제를 설정합니다.
+                    <br><small style="font-size: 0.8em; margin-top: 7px; display: block;">* 연령, 성별에 따라 페르소나 이미지가 바뀝니다.</small>
+                    </p>  
+                </div>
+            </div>
+            <div class="arrow">&gt;</div>
+            <div class="use_content_box">
+                <div class="use_content_img_box">
+                    <img class="use_content_img" src="/static/image/chat.png" alt="대화 시뮬레이션 진행">
+                </div>
+                <div class="use_content_txt_box">
+                    <h3 class="use_content_txt_title">대화 시뮬레이션 진행</h3>
+                    <p>설정한 페르소나를 입힌 가상의 대상과 <br>대화 시뮬레이션을 진행합니다.
+                    <br><small style="font-size: 0.8em; margin-top: 7px; display: block;">* 대화는 문자, 음성으로 모두 가능합니다.</small>
+                    </p>
+                </div>
+            </div>
+            <div class="arrow">&gt;</div>
+            <div class="use_content_box">
+                <div class="use_content_img_box">
+                    <img class="use_content_img" src="/static/image/analysis_real.png" alt="코칭 분석 결과 확인">
+                </div>
+                <div class="use_content_txt_box">
+                    <h3 class="use_content_txt_title">코칭 분석 결과 확인</h3>
+                    <p>코칭 후 AI가 대화를 분석하여 자신의<br>코칭 역량에 대해 알아볼 수 있습니다.</p>
+                </div>
+            </div>
+            <div class="arrow">&gt;</div>
+            <div class="use_content_box">
+                <div class="use_content_img_box">
+                    <img class="use_content_img" src="/static/image/rpg.png" alt="커뮤니티를 통한 피드백">
+                </div>
+                <div class="use_content_txt_box">
+                    <h3 class="use_content_txt_title">결과 분석 서비스</h3>
+                    <p>나의 대화를 GROW 코칭 모델 기반 <br>설문을 받아 확인할 수 있습니다.</p>
+                </div>
+            </div>
+        </div> 
+        <div class="useintro_bottom">
+            <a href="#home_about" class="use_bottom_go">
+                <div class="use_bottom_text"> ABOUT US </div>
+                <img class="use_bottom_arrow" src="/static/image/black_down_arrow.png" alt="아래화살표">   
+            </a>
+        </div>
+    </div>
+
+    <!-- about us  -->
+    <div id="home_about" class="about_container"><!-- 4번째 스크롤 -->
+        <div class="intro_title">
+            <div class="intro_title_text"> ABOUT US </div>
+        </div>
+        <div class="profile_container">
+            <div class="profile_lay">
+                <div class="profile_box_row">
+                    <div class="flip-container-hyunji" id="hyunji-container">
+                        <img class="profile_box" src="/static/image/Group 60.png" alt="이현지" id="hyunji-profile">
+                    </div>                    
+                    <img class="profile_box" src="/static/image/chan.png" alt="김예찬">
+                    <img class="profile_box" src="/static/image/chul.png" alt="김철우">
+                    <img class="profile_box" src="/static/image/Group 59.png" alt="박미나">
+                </div>
+                <div class="profile_box_row">
+                    <img class="profile_box" src="/static/image/wook.png" alt="오재욱">
+                    <img class="profile_box" src="/static/image/young.png" alt="이충영">
+                    <img class="profile_box" src="/static/image/yoon.png" alt="최정윤">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="footer">
+    <div style="display: inline;">
+        <a class="footer_text" href="#" data-toggle="modal" data-target="#exampleModal">개인정보 처리 방침</a>
+        <a class="footer_text" href="#" data-toggle="modal" data-target="#exampleModal2">제휴 문의</a>
+        <a class="footer_text" href="#" data-toggle="modal" data-target="#exampleModal3">고객 센터</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+
+.login_wrapper {
+    /* 로그인 흰 박스 통째로 가운데 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+    width: 100vw;
+    /* height: 87vh; */
+    height: calc(100vh - 95px);
+    background: #E9F2FF;
+  }
+
+  /* 흰박스 */
+  .login_content_wrapper{ 
+    /* 로그인 흰 박스 내부 내용들 가운데 정렬 */
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 500px;
+    border-radius: 20px;
+    background: white;
+  }
+
+  /* 제목과 인풋 내용들을 왼쪽 정렬하기 위한 div */
+  .login_content_wrapper_layout{
+    text-align: left;
+  }
+
+  .login_content_title{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+  }
+
+  .login_content_detail{
+    margin-top: 10px;
+  }
+  .login_content_detail_input_wrapper{
+    display: flex;
+    flex-direction: column;
+  }
+  .login_content_detail_input{
+    border: #D2D2D2 solid 1px;
+    border-radius: 7px;
+    color: #797979;
+    padding: 15px;
+    margin: 10px 0px;
+  }
+  .login_content_detail_idsave{
+    margin-top: 10px;
+  }
+  .login_content_detail_button{
+    color:#0068FF;
+    background-color: white;
+    border: solid 1px #0068FF;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 20px 0px;
+  }
+
+  .login_content_detail_button:hover {
+    background-color:#0068FF;
+    color: white;
+    transition: 1.0s;
+  }
+
+  .login_line{
+    width:250px;
+    border: solid #D2D2D2 1px;
+  }
+  .login_content_detail_sub{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  .login_content_signup_go{
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: inherit; /* 링크의 색상 제거 */
+    border-radius: 7px;
+    padding: 3px;
+  }
+  .login_content_signup_go:hover {
+    background-color: #E9F2FF;
+  }

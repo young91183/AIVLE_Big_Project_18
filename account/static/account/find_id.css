@@ -1,0 +1,189 @@
+.back_button {
+    position: absolute;
+    top: 15%;
+    right: 30px;
+    font-size: 18px;
+    padding: 6px 12px;
+    background-color: #99b4da;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.back_button:hover {
+    background-color: #134971;
+}    
+
+.find_userid_wrapper{
+    width: 100vw;
+    height: calc(100vh - 92px);
+    background: #E9F2FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.find_userid_box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 300px;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.find_userid_box_title{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    /* background-color: aliceblue; */
+}
+
+.find_userid_box_content_wrapper{
+    width: 300px;
+    /* background-color: #D2D2D2; */
+    margin-top: 30px;
+    margin-left: 15px;
+}
+
+
+.find_userid_box_content_input{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+}
+
+.find_userid_box_content_name{
+    display: flex;
+    justify-content: inherit;
+    margin-right: 50px;
+}
+
+.find_userid_box_content_name input{
+    border: solid #D2D2D2 1px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+.find_userid_box_content_nickname{
+    display: flex;
+    margin-top: 15px;
+    justify-content: space-between;
+}
+
+.find_userid_box_content_nickname input{
+    border: solid #D2D2D2 1px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 25px;
+}
+
+.find_userid_box_content_submit{
+    width: 200px;
+    color:#0068FF;
+    background-color: white;
+    border: solid 1px #0068FF;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 30px;
+    margin-left: 53px;
+}
+
+.find_userid_box_content_submit:hover{
+    background-color:#0068FF;
+    color: white;
+    transition: 1.0s;
+}
+
+/* ----------------------- password --------------------------*/
+
+.find_userpassw_box_content_id {
+    margin-top: 15px;
+}
+.find_userpassw_box_content_id input{
+    border: solid #D2D2D2 1px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+
+
+
+/* .find_userpassw_box_content_email{
+    margin-top: 15px;
+}
+
+.find_userpassw_box_content_name input{
+    border: solid #D2D2D2 1px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 21px;
+} */
+
+
+
+.find_userpassw_box_content_nickname {
+    margin-top: 15px;
+}
+.find_userpassw_box_content_nickname input{
+    border: solid #D2D2D2 1px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+
+
+.find_userpassw_box_content_submit{
+    width: 200px;
+    color:#0068FF;
+    background-color: white;
+    border: solid 1px #0068FF;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 30px;
+    margin-left: 53px;
+}
+
+.find_userpassw_box_content_submit:hover{
+    background-color:#0068FF;
+    color: white;
+    transition: 1.0s;
+}
+
+
+
+/* ----------------  비밀번호 재설정 --------------------*/
+.confirm_userpassw_box_content_pw1{
+    margin-top: 10px;
+}
+
+.confirm_userpassw_box_content_pw1 input{
+    border: solid #D2D2D2 1px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 60px;
+}
+
+
+.confirm_userpassw_box_content_pw2{
+    margin-top: 5px;
+}
+
+.confirm_userpassw_box_content_pw2 input{
+    border: solid #D2D2D2 1px;
+    padding: 5px;
+    border-radius: 5px;
+    margin-left: 60px;
+}
+
+#password1-error, #password2-error {
+    font-size: 0.8em;
+    margin-left: 8px;
+}

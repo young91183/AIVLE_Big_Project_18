@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0"></script>
+{% comment %} <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script> {% endcomment %}
+<script id="pieChartData" type="application/json">{{ pie_chart.pie_counts|safe }}</script>
+{% comment %} <script id="lineData" type="application/json">{{ pie_chart.socre_mem|safe }}</script> {% endcomment %}
+<script id="lineData" type="application/json">{{ pie_chart.grow_counts|safe }}</script>
+<script src="{% static 'analysis/analysis.js' %}" defer></script>
+<link rel="stylesheet" href="{% static 'analysis/analysis.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+{% comment %} <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> {% endcomment %}
+{% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script> {% endcomment %}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">설문 요청 방법</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img class="person_info" src="/static/img/survey_request.png" alt="개인정보처리방침">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          {% comment %} <button type="button" class="btn btn-primary">Save changes</button> {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Main -->
+<div class="analysis_wrapper">    
+    <div class="analysis_contain">
+        <div class="analysis_title">
+            <div class="analysis_title_text">
+                {% if user.is_authenticated %}
+                <span class = "user_name_0">{{ user.username }}</span> 님의 코칭 대화 분석 결과
+                {% else %}
+                회원님의 코칭 대화 분석 결과
+                {% endif %}
+            </div>
+            <div class="analysis_title_btn_wrapper">
+                {% comment %} <button class="analysis_title_btn" id="survey_popup" type="button" id="add_feed" data-toggle="modal" data-target="#exampleModal"> 설문 요청하기 </button> {% endcomment %}
+                <a class="analysis_title_btn" id="add_feed" data-toggle="modal" data-target="#exampleModal">설문 요청 방법</a>
+            </div>
+        </div>
+        <div class="analysis_content">
+            <div class="analysis_content_title">코칭 질문 분석 결과</div>
+            <div class="analysis_content_score_graph">
+                <div class="grow_chart_title">GROW 분석</div>
+                <hr class = "grow_h_r">
+                <div id="grow_is" class="grow_is">
+                    · Goal(목표) - 단기 및 장기 목표 정의<br>
+                    · Reality(현실) - 현재 상황 및 문제 탐색<br>
+                    · Option(목표) - 해결 가능한 옵션 및 평가<br>
+                    · Will(의지) - 실행할 일과 시기 설정<br>
+                </div>
+                <canvas id="line_chart" class="line_chart"></canvas>
+            </div>
+            <div class="score_pie">
+                <div class="white_circle">
+                    <div class="circle_sc">
+                        {{pie_chart.f_score}}
+                    </div>
+                    <div class = "score_span">점</div>
+                </div>
+            </div>
+            <div class="analysis_content_score">
+                <div class="analysis_content_score_title">코칭 리더십 점수 <span class = "score">{{pie_chart.f_score}}</span> 점</div>
+                <hr class = "h_r">
+                <div class="analysis_content_score_explain">
+                    본 점수는 질문 별 관점변화, 존중, 인정, 판단, 분위기의 다섯 가지 척도 기반 결과입니다.<br>
+                    질문 별 점수는 (각 질문 별 점수 / (최고점수 * 질문 개수)) * 100점으로 산출되었습니다.<br>
+                    <span style="font-size: 12px; margin-left : 10px">
+                        * 각 질문 별 점수 : 다섯 가지 평가 척도를 기준으로 각 질문에서 얻을 수 있는 점수<br></span>
+                    <span style="font-size: 12px; margin-left : 10px">
+                        * 최고 점수: 질문에서 얻을 수 있는 최고점수 = 2 [점]<br></span>
+                    <span style="font-size: 12px; margin-left : 10px">
+                        * 질문 개수 : 사용자가 질문 개수</span>
+                </div>
+            </div>
+            <div class="analysis_content_result">
+                <div class="analysis_content_result_title">코칭 요인 분석</div>
+                <hr class = "y_in_h_r">
+                <div class="analysis_content_result_graph">
+                    <div class="analysis_content_result_graph_pic">
+                        <canvas id="pie_chart" style="width: 300px; height: 300px;"></canvas>
+                    </div>
+                    <div class="analysis_content_result_graph_box">
+                        <label id="buttonGroup">
+                            <div class="analysis_content_result_graph_box_btn">
+                                <button class="analysis_content_result_graph_box_btn_idx" id="recognition_btn"> 인정 </button>
+                                <button class="analysis_content_result_graph_box_btn_idx" id="respect_btn"> 존중 </button>
+                                <button class="analysis_content_result_graph_box_btn_idx" id="perspective_btn" selected> 관점변화 </button>
+                                <button class="analysis_content_result_graph_box_btn_idx" id="judgment_btn"> 판단 </button>
+                                <button class="analysis_content_result_graph_box_btn_idx" id="mood_btn"> 부정 </button>
+                            </div>
+                            <div class="analysis_content_result_graph_box_txt" id="info">인정<br><br>인정은 대화 상대가 스스로 문제를 해결할 능력을 가지고 있다 믿어주는 것으로 정의됩니다. 이 요인은 조금만 도와주면 대화 상대가 스스로 문제를 해결할 것이라고 믿음, 대화상대에게 적절한 도움을 제공하면 스스로 성장하고 발전할 것이라 믿음, 대화상대 자발적으로 동기부여 되는 사람이라고 믿음, 대화상대의 잠재능력과 성장 가능성을 믿는 것이 해당됩니다.</div>
+                        </label>
+                    </div>
+                </div>
+                <div class="analysis_content_result_explain">
+                    <span class = "user_name">{{ user.username }}</span> 님의 코칭 분석 결과,<br>
+                    (인정) 대화상대를 믿고 의지를 다질 수 있도록 하는 유형의 질문을 
+                    {% for item in pie_chart.pie_word %}
+                        {% if item.name == "인정" %}
+                            {% if item.value < 20 %}
+                            <span style="color: #F15F5F;">다소 적게</span>
+                            {% elif item.value >= 20 and item.value < 30 %}
+                            <span style="color: #47C83E;">적절히 활용</span>
+                            {% elif item.value >= 30 %}
+                            <span style="color: #4374D9;">잘 활용</span>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                     하신 것으로 나타납니다. 대화상대가 스스로 해결할 능력을 가지고 있다고 믿을 수 있도록 질문을 유도하는 것은 코칭 대화에서 중요한 요소입니다.<br>
+                    (존중) 대화상대를 존중하는 유형의 질문을 
+                    {% for item in pie_chart.pie_word %}
+                        {% if item.name == "존중" %}
+                            {% if item.value < 20 %}
+                            <span style="color: #F15F5F;">다소 적게</span>
+                            {% elif item.value >= 20 and item.value < 30 %}
+                            <span style="color: #47C83E;">적절히 활용</span>
+                            {% elif item.value >= 30 %}
+                            <span style="color: #4374D9;">잘 활용</span>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                     하신 것으로 나타납니다. 대화상대의 동의를 구하며 심리적으로 지지하고 도움을 주는 것은 코칭 대화에서 중요한 요소입니다.<br>
+                     (관점변화) 대화상대가 기존과 다른 관점에서 해결책을 찾도록 돕는 유형의 질문을 
+                     {% for item in pie_chart.pie_word %}
+                         {% if item.name == "관점변화" %}
+                             {% if item.value < 20 %}
+                             <span style="color: #F15F5F;">다소 적게</span>
+                             {% elif item.value >= 20 and item.value < 30 %}
+                             <span style="color: #47C83E;">적절히 활용</span>
+                             {% elif item.value >= 30 %}
+                             <span style="color: #4374D9;">잘 활용</span>
+                             {% endif %}
+                         {% endif %}
+                     {% endfor %}
+                      하신 것으로 나타납니다. 대화상대가 스스로 해결책을 찾을 수 있도록 질문을 유도하는 것은 코칭 대화에서 중요한 요소입니다.<br>
+                    (판단) 대화상대를 판단하는 유형의 질문을 
+                    {% for item in pie_chart.pie_word %}
+                        {% if item.name == "판단" %}
+                            {% if item.value < 10 %}
+                            <span style="color: #47C83E;">하지 않았거나 매우적게</span>
+                            {% elif item.value >= 10 and item.value < 20 %}
+                            <span style="color: #F2CB61;">어느정도</span>
+                            {% elif item.value >= 20 %}
+                            <span style="color: #F15F5F;">다소 많이</span>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                     하신 것으로 나타납니다. 대화상대가 자율성을 가질 수 있도록 개인의 의견이 들어간 질문보다 개방적인 질문을 통해 대화상대가 스스로 해결 방안을 찾을 수 있도록 유도하는 것은 중요한 요소입니다.<br>
+                    (부정) 대화상대를 부정하는 유형의 질문을 
+                    {% for item in pie_chart.pie_word %}
+                        {% if item.name == "부정" %}
+                            {% if item.value < 10 %}
+                            <span style="color: #47C83E;">하지 않았거나 매우적게</span>
+                            {% elif item.value >= 10 and item.value < 20 %}
+                            <span style="color: #E0B94F;">어느정도</span>
+                            {% elif item.value >= 20 %}
+                            <span style="color: #F15F5F;">다소 많이</span>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                     하신 것으로 나타납니다. 대화상대가 부정적으로 느껴지지 않도록 부정적인 질문보다 긍정적인 질문을 통해 대화의 분위기를 긍정적으로 유도하는 것은 중요한 요소입니다.<br>
+                </div>
+            </div>
+        </div>
+        <div><br><br></div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+<script>
+    var pie_chart_vpn = {{pie_chart_vpn}}
+</script>

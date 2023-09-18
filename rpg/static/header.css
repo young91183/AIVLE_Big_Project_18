@@ -1,0 +1,30 @@
+/* ================================ 헤더 ================================= */
+.commu_head_wrapper{
+    position: fixed;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 90px;
+    background-color: white;
+    z-index: 100;
+    border-top: 3px solid #B0DEE1;
+    border-bottom: 3px solid #B0DEE1;
+}
+
+.commu_head_menu_wrapper{
+    margin-right: 40px;
+}
+
+.commu_head_menu{
+    margin: 0px 10px;
+    text-decoration: none;
+}
+
+.commu_head_menu_icon{
+    color: #80dee4;
+    width: 30px;
+    height: 30px;
+}

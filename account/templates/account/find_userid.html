@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'account/find_id.css' %}">
+
+<div class="find_userid_wrapper">
+  <button class="back_button" onclick="window.history.back();">&lt</button>
+  <div class="find_userid_box">
+    <div class="find_userid_box_title">아이디 찾기 요청</div>
+    <div class="find_userid_box_content_wrapper">
+      <div class="find_userid_box_content">
+      {% if email_sent %}
+        <p>아이디 찾기 요청 메일을 보냈습니다.</p>
+      {% elif account_not_found %}
+        <p>해당 이메일에 해당하는 계정이 없습니다.</p>
+      {% else %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="find_userid_box_content_input">
+            <div class="find_userid_box_content_name">
+              <label for="email">이메일 :</label>
+              <input type="text" id="email" name="email" required>
+            </div>
+            <input class="find_userid_box_content_submit" type="submit" value="아이디 찾기">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  {% endif %}
+{% endblock %}

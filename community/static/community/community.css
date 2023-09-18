@@ -1,0 +1,255 @@
+/* ================================ 헤더 ================================= */
+.commu_head_wrapper{
+    position: fixed;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 90px;
+    background-color: white;
+    z-index: 100;
+    border-top: 3px solid #B0DEE1;
+    border-bottom: 3px solid #B0DEE1;
+}
+
+.commu_head_menu_wrapper{
+    margin-right: 40px;
+}
+
+.commu_head_menu{
+    margin: 0px 10px;
+    text-decoration: none;
+}
+
+.commu_head_menu_icon{
+    color: #80dee4;
+    width: 30px;
+    height: 30px;
+}
+
+/* ================================= 사이드바 =============================  */
+/* GOOGLE FONTS */
+/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"); */
+
+/* VARIABLES CSS */
+:root {
+    --nav--width: 92px;
+
+    /* Colores */
+    --first-color: rgba(255, 255, 255, 0.3);
+    --bg-color: #0097FE;
+    --sub-color: #b6cefc;
+    --white-color: white;
+
+
+    /* Fuente y tipografia */
+    --body-font: 'Poppins', sans-serif;
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+
+    /* z index */
+    --z-fixed: 100;
+}
+
+/* BASE */
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+/* h1 {
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+} */
+
+header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 100;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* l NAV */
+.navbar {
+    /* display: flex; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--nav--width);
+    height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--white-color);
+    padding: 1.5rem 1.5rem 2rem;
+    transition: .5s;
+    z-index: var(--z-fixed);
+    margin-top: 90px;
+}
+
+/* NAV */
+.nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.nav__brand {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.nav__toggle {
+    font-size: 1.25rem;
+    padding: .75rem;
+    cursor: pointer;
+}
+
+.nav__logo {
+    color: var(--white-color);
+    font-weight: 600;
+}
+
+/* .nav__submit{
+    position: grid;
+    bottom: 20px;
+} */
+
+.nav__list{
+    margin-top: 20px;
+}
+
+.nav__link {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    align-items: center;
+    column-gap: .75rem;
+    padding: .75rem;
+    color: var(--white-color);
+    border-radius: .5rem;
+    margin-bottom: 1rem;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.nav__link:hover{
+    background-color: var(--first-color)
+}
+
+.nav__link:hover {
+    /* background-color: var(--first-color); */
+}
+
+.nav__icon {
+    font-size: 1.25rem;
+}
+
+.nav_name {
+    font-size: var(--small-font-size);
+    margin-left: 10px;
+}
+
+/* Expander menu */
+.expander {
+    width: calc(var(--nav--width) + 9.25rem);
+}
+
+/* Add padding body*/
+/* .body-pd {
+    padding: 2rem 0 0 16rem;
+} */
+
+/* Active links menu */
+/* .active {
+    background-color: var(--first-color);
+} */
+
+/* COLLAPSE */
+/* .collapse {
+    grid-template-columns: 20px max-content 1fr;
+}
+
+.collapse__link {
+    justify-self: flex-end;
+    transition: .5;
+}
+
+.collapse__menu {
+    display: none;
+    padding: .75rem 2.25rem;
+}
+
+.collapse__sublink {
+    color: var(--sub-color);
+    font-size: var(--small-font-size);
+}
+
+.collapse__sublink:hover {
+    color: var(--white-color);
+} */
+
+/* Show collapse */
+/* .showCollapse {
+    display: block;
+} */
+
+/* Rotate icon */
+/* .rotate {
+    transform: rotate(180deg);
+    transition: .5s;
+} */
+
+/* ===================================================================== */
+/* 페이지 메인 */
+
+.row{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    top: 90px;
+    /* left: 92px; */
+    left: var(--nav--width);
+    /* background-color: aqua; */
+    /* width: 94vw; */
+    width: calc(98vw - var(--nav--width));
+    height: calc(95vh - 90px);
+    margin-top: 30px;
+    transition: width 0.5s ease;
+}
+
+.expander ~ .row {
+    left: calc(var(--nav--width) + 9.25rem);
+    width: calc(100vw - var(--nav--width) - 9.25rem);
+    transition: left 0.5s ease, width 0.5s ease;
+}
+
+.body-pd .row {
+    padding-left: 16rem;
+    transition: padding-left 0.5s ease;
+}
+
+.col-md-9{
+   
+    width: 80vw;
+}
+
+.commu_content{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}

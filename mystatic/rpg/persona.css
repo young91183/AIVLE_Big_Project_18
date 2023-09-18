@@ -1,0 +1,220 @@
+/* 사이드바 */
+body, ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  /* 커스텀 */
+  .con {
+    /* border: 5px solid blue; */
+    width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  /* 사이드 바 화면 기준으로 움직이도록-유령화 */
+  .side-bar {
+    background-color: #E9F2FF;
+    position: fixed;
+    top: 0;
+    left: -175px;
+    width: 200px;
+    height: 100%;
+    transition: left .5s, background-color .5s;
+  }
+  .side-bar:hover {
+    left: 0;
+    background-color: #0097FE;
+    color: white;
+  }
+  
+  /* 아이콘 */
+  .side-bar > .status-icon > div {
+    text-align: right;
+    padding: 5px;
+  }
+  .side-bar > .status-icon > div:last-child {
+    display: none;
+  }
+  .side-bar:hover > .status-icon > div:first-child {
+    display: none;
+  }
+  .side-bar:hover > .status-icon > div:last-child {
+    display: block;
+  }
+  
+  /* 메뉴 */
+  .side-bar > .menu-box > ul ul {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    background-color: #0097FE;
+  }
+  /* 1차 메뉴 */
+  .side-bar > .menu-box ul > li > a {
+    display: block;
+    padding: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  .side-bar > .menu-box ul > li:hover > a {
+    color: black;
+    background-color: white;
+  }
+  /* 1차 메뉴에 hover하면 2, 3차 메뉴 등장 */
+  .side-bar > .menu-box ul > li:hover > ul {
+    display: block;
+  }
+  /* 2, 3차 메뉴 부모에게 갇히게 */
+  .side-bar > .menu-box ul > li {
+    position: relative;
+  }
+/* +, - 추가 */
+.side-bar > .menu-box ul > li > a:not(:only-child)::after {
+    content: "[+]";
+  }
+  .side-bar > .menu-box ul > li:hover > a:not(:only-child)::after {
+    content: "[-]";
+  }
+
+
+
+
+
+
+
+
+/* 페르소나 메인 */
+div{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.persona_wrapper{
+    display: flex;
+    flex-direction: row;
+    background-size: cover;
+    justify-content: center;
+    /* align-items: center; */
+    width: 100vw;
+    height: calc(100vh - 202px);
+}
+.persona_wrapper_layout{
+    display: flex;
+    align-items: center;
+}
+
+/* 왼쪽 영역 */
+.persona_profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.persona_profile_box{
+    background-color: #F5F5F5;
+    padding: 20px 40px;
+    border-radius: 45px;
+}
+.persona_profile_name{
+    margin: 10px 0px;
+}
+.persona_profile_name{
+    font-size: 20px;
+    font-weight: 600;
+    /* letter-spacing : 70px; */
+}
+.persona_profile_char{
+    width: 210px;
+    height: 280px;
+    border-radius: 30px;
+}
+
+/* 오른쪽 영역 */
+.persona_setting{
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    margin: 0px 30px;
+}
+.persona_setting_title{
+    font-size: 20px;
+    font-weight: 600;
+    color: #2FC4CE;
+    margin-left: 10px;
+}
+
+.persona_setting_content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #E9F2FF;
+    border-radius: 25px;
+    width: 500px;
+    height: 400px;
+}
+
+.persona_setting_content_topic_label{
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 20px;
+}
+
+.persona_setting_select{
+    display: flex;
+    /* grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr; */
+    flex-direction: column;
+    text-align: start;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.persona_setting_select_first, .persona_setting_select_second, .persona_setting_select_third{
+    display: flex;
+    flex-direction: row;
+    justify-items: space-between;
+    align-items: space-between;
+    margin: 10px 0px;
+}
+
+.persona_select_wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.persona_select{
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px 30px;
+    font-size: 10px;
+    font-weight: 400;
+    color: #9F9F9F;
+    border: none;
+    box-shadow: 1px 1px 1px 1px lightgray;
+    margin-top: 10px;
+}
+
+.persona_setting_content_btn{
+    background-color: #575757;
+    color: white;
+    border: solid 2px white;
+    border-radius: 20px;
+    padding: 10px 30px;
+    margin-top: 20px;
+}
+
+.persona_setting_content_btn:hover{
+    background-color: white;
+    color: #575757;
+    border: solid 2px #575757;
+    transition: 0.4s;
+}

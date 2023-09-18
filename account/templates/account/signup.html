@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'account/signup.js' %}" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'account/signup.css' %}">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+  
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">개인 정보 처리 방침</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <img class="person_info" src="/static/account/img/personal_info.png" alt="개인정보처리방침">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          {% comment %} <button type="button" class="btn btn-primary">Save changes</button> {% endcomment %}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {% comment %} kt Coaching에는 hover 지우고 헤더에 밑줄 제거  {% endcomment %}
+  <style>
+  
+    .logo-link:hover {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .menu-header:hover {
+      cursor: pointer;
+      color: #00365f;
+      text-decoration: none;
+    }
+  </style>
+
+  <form method="post">
+    {% csrf_token %}
+    {% if error_message %}
+        <div class="error-message">
+          {{ error_message }}
+        </div>
+    {% endif %}
+
+    <div class="signup_wrapper">
+        <div class="signup_content_wrapper">
+            <div class="signup_content_wrapper_layout">
+                <div class="signup_content_title">회원가입</div>
+                <div class="signup_content_detail">
+                    <div class="signup_content_detail_input_wrapper">
+                        <input class="signup_content_detail_input" placeholder="아이디를 입력해 주세요." type="text" name="userid" id="userid" required />
+                        <input type="hidden" name="hidden_userid" id="hidden_userid" />
+                        <div class="signup_error_message" id="userid-error"></div>
+                        <div class="signup_content_detail_duplicate">
+                            <button class="signup_duplicate_btn" type="button" id="id_duplicate_btn">중복확인</button>
+                            <div id="duplicate-message"></div>
+                        </div>
+
+                        <input class="signup_content_detail_input" placeholder="비밀번호를 입력해 주세요." type="password" name="password1" id="password1" required/>
+                        <div class="signup_error_message" id="password1-error"></div>
+
+                        <input class="signup_content_detail_input" placeholder="비밀번호를 다시 입력해 주세요." type="password" name="password2" id="password2" required/>
+                        <div class="signup_error_message" id="password2-error"></div>
+
+                        <input class="signup_content_detail_input" placeholder="이메일을 입력해 주세요." type="email" name="email" id="email" required />
+                        <input type="hidden" name="hidden_email" id="hidden_email" />
+                        <div class="signup_error_message" id="email-error"></div>
+                        <div class="signup_content_detail_duplicate">
+                            <button class="signup_duplicate_btn" type="button" id="email_duplicate_btn">중복확인</button>
+                            <div id="email-duplicate-message"></div>
+                        </div>
+
+                        <input class="signup_content_detail_input" placeholder="이름을 입력해 주세요." type="text" name="username" id="username" required/>
+                        <div class="signup_error_message" id="username-error"></div>
+                        
+                        <input class="signup_content_detail_input" placeholder="닉네임을 입력해 주세요." type="text" name="nickname" id="nickname" required/>
+                        <input type="hidden" name="hidden_nickname" id="hidden_nickname" />
+                        <div class="signup_error_message" id="nickname-error"></div>
+                        <div class="signup_content_detail_duplicate">
+                            <button class="signup_duplicate_btn" type="button" id="nickname_duplicate_btn">중복확인</button>
+                            <div id="nickname-duplicate-message"></div>
+                        </div>                          
+
+                        <div class="signup_content_detail_birth">
+                            <input class="signup_content_detail_birth_box" placeholder="나이를 입력해 주세요." type="number" name="age" id="id_age" min="20" max="99" required>
+                        </div>
+
+                        <div class="signup_content_detail_dp">
+                            <select class="signup_content_detail_job" name="department" id="department" required>
+                                <option value="none" selected>직군을 선택하세요.</option>
+                                <option value="B2C">B2C</option>
+                                <option value="B2B">B2B</option>
+                                <option value="네트워크">네트워크</option>
+                                <option value="R&D">R&D</option>
+                                <option value="사업부서">사업부서</option>
+                                <option value="지원부서">지원부서</option>
+                            </select>
+                        </div>
+                      
+                        <div class="signup_content_detail_dp">
+                            <select class="signup_content_detail_job" name="rank" id="rank" required>
+                                <option value="none" selected>직급을 선택하세요.</option>
+                                <option value="사원">사원</option>
+                                <option value="대리">대리</option>
+                                <option value="과장">과장</option>
+                                <option value="차장">차장</option>
+                                <option value="부장">부장</option>
+                            </select>
+                        </div>
+
+                        <div class="signup_content_detail_gender">
+                            <input class="signup_content_detail_gender_element" type="radio" name="gender" id="gender_male" value="M" required>
+                            <label class="signup_content_detail_gender_element" for="gender_male">남성</label>
+                            <input class="signup_content_detail_gender_element" type="radio" name="gender" id="gender_female" value="F" required>
+                            <label class="signup_content_detail_gender_element" for="gender_female">여성</label>
+                        </div>
+
+                        <hr class="signup_line">
+                    </div>
+                    <div class="signup_content_detail_submit">
+                        <label class="signup_content_detail_person_info_label">
+                          <div>
+                            <input class="signup_content_detail_person_info" type="checkbox" name="person_info" value="person_info" required> 개인정보 수집 및 이용 동의(필수)
+                          </div> 
+                            <button class="signup_content_detail_person_info_btn" type="button" id="add_feed" data-toggle="modal" data-target="#exampleModal">내용보기</button>
+                        </label>
+                        <div class="signup_content_detail_submit_btn_wrapper">
+                            <button class="signup_content_detail_submit_btn" id="signup_btn" type="submit">가입하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}  

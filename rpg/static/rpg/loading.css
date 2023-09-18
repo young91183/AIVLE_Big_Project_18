@@ -1,0 +1,49 @@
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+}
+
+.analysis_loading {
+	width: 100vw;
+    height: 100vh;
+	top: 0;
+	left: 0;
+	position: fixed;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+	opacity: 1.0;
+	background: #606582;
+	z-index: 99;
+	text-align: center;
+    animation-name: fadeIn;
+    animation-duration: 1s;
+    animation-delay: 3s;
+    animation-fill-mode: forwards;
+}
+
+.analysis_loading > div{
+    color:white;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.analysis_loading > img {
+    width: 50vw; 
+    height: 70vh; 
+    z-index: 100;
+}

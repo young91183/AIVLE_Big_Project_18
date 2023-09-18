@@ -1,0 +1,228 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header_color %}
+    #ff0000  <!-- 홈 페이지에서는 헤더 색상을 빨간색으로 설정 -->
+{% endblock %}
+
+{% block content %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'persona/persona.css' %}">
+<link rel="stylesheet" href="{% static 'header.css' %}">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'persona/persona.js' %}" defer></script>
+<script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script> <!-- IONICONS -->
+
+<!-- 헤더 -->
+<!-- <div class="commu_head_wrapper">
+  <div class="commu_head_menu_wrapper" style="display: inline;">
+      {% comment %} href는 아직 구현 안 됨 {% endcomment %}
+      <a class="commu_head_menu"><ion-icon name="information-circle" class="commu_head_menu_icon"></ion-icon></a>
+      <a href="{% url 'common:home' %}" class="commu_head_menu"><ion-icon name="exit-outline" class="commu_head_menu_icon"></ion-icon></a>
+    </div>
+</div>
+-->
+
+<!-- 사이드 바 -->
+<!-- <div class="l-navbar" id="navbar">
+  <nav class="nav">
+    <div>
+      <div class="nav__brand">
+        <ion-icon name="menu-outline" class="nav__toggle" id="nav-toggle"></ion-icon>
+        <a href="#" class="nav__logo">KT coaching</a>
+      </div>
+      <div class="nav__btn">
+        <button class="new_chat_btn">
+          <ion-icon name="add-circle-outline"></ion-icon>
+          <div>New Chat</div>
+        </button>
+      </div>
+      <div class="nav__list">
+        {% comment %} <a href="#" class="nav__link active">
+            <ion-icon name="home-outline" class="nav__icon"></ion-icon>
+            <span class="nav_name">New Chat</span>
+        </a> {% endcomment %}
+        <div href="#" class="nav__link collapse">
+          <ion-icon name="chatbubbles-outline" class="nav__icon"></ion-icon>
+          <span class="nav_name">2023.06.05</span>
+            <ion-icon name="chevron-down-outline" class="collapse__link"></ion-icon>
+
+            <ul class="collapse__menu">
+                <a href="#" class="collapse__sublink">코칭시뮬레이션2차</a>
+                <a href="#" class="collapse__sublink">코칭시뮬레이션1차</a>
+            </ul>
+        </div>
+      </div>
+  </nav>
+</div> --> 
+
+  <!-- 페르소나 메인 -->
+    <div class="con"></div>
+
+    <div class="persona_wrapper">
+      <div class="persona_wrapper_layout">
+        <div class="persona_profile">
+          <div class="persona_profile_box"> <!-- 프로필 박스 -->
+            <img class="persona_profile_kt" src="/static/img/kt.png" alt="kt로고">
+            <div class="persona_profile_name"> 홍길동 </div>
+            <img class="persona_profile_char" id="persona_image" src="/static/img/default.png" alt="페르소나1">
+          </div>
+        </div>
+        <div class="persona_setting">
+          <div class="persona_setting_title">Make Your Persona</div>
+          <div class="persona_setting_content">
+            <script>
+              function updatePersonaImage() {
+                let age = document.getElementById("id_age").value;
+                let gender = document.getElementById("gender").value;
+                let imageElement = document.getElementById("persona_image");
+            
+                let ageGroup = null;
+                let imageName = "";
+            
+                if (age >= 18 && age <= 29) {
+                  ageGroup = "young";
+                } else if (age >= 30 && age <= 39) {
+                  ageGroup = "middle";
+                } else if (age >= 40 && age <= 49) {
+                  ageGroup = "senior";
+                } else if (age >= 50 && age <= 59) {
+                  ageGroup = "elder";
+                } else if (age >= 60) {
+                  ageGroup = "old";
+                }
+            
+                if (gender === "남성" && ageGroup !== null) {
+                  imageName = ageGroup + "_male";
+                } else if (gender === "여성" && ageGroup !== null) {
+                  imageName = ageGroup + "_female";
+                } else {
+                  imageName = "default";
+                }
+          
+                imageElement.src = "/static/img/" + imageName + ".png";
+                imageElement.alt = imageName;
+              }
+            </script>
+            
+            <form method="post">
+              <!-- 폼 필드들 -->
+              {% csrf_token %}
+                {% if error_message %}
+                <div class="error-message">
+                  {{ error_message }}
+                </div>
+                {% endif %}
+                <div class="persona_setting_topic">
+                  <div class="persona_setting_content_topic">
+                    <label class="persona_setting_content_topic_label" for="topic_label">대화 주제</label>
+                    <select class="persona_select" name="topic_label" id="topic_label_select" required>
+                      <option value="" selected>주제를 선택하세요.</option>
+                      <option value="지금보다 성과를 더 늘리고 싶어하는 상황">성과에 대해 고민인 팀원과의 대화</option>
+                      <option value="직장생활에 적응을 어려워하는 상황">직장생활이 익숙하지 않은 팀원과의 대화</option>
+                      <option value="업무에 대한 자신감이 부족한 상황">업무에 대한 자신감이 부족한 팀원과의 대화</option>
+                      <option value="개인적인 발전을 위해 진로를 고민하는 상황">개인적인 진로가 걱정인 팀원과의 대화</option>
+                      <option value="직장 동료와 다툼이 있어 고민하는 상황">동료와 다툼이 있어 걱정인 팀원과의 대화</option>
+                      <option value="개인적 성장이나 발전에 대한 얘기를 할 준비가 되어있는 상황">개인적 발전과 성장에 대한 주제로 팀원과의 대화</option>
+                      <option value='직접입력'>직접 입력</option>
+                    </select>
+                    <input class="persona_input" type="text" name="topic_label" id="topic_label_input" placeholder='"~인 상황" 이라고 입력해 주세요.' style="display:none;" required>
+                  </div>
+                </div>
+                <script>
+                  // JavaScript 코드
+                  const selectElement = document.getElementById('topic_label_select');
+                  const inputElement = document.getElementById('topic_label_input');
+
+                  // 대화 주제 변경 이벤트를 감지하여 처리
+                  selectElement.addEventListener('change', function() {
+                    if (selectElement.value === '직접입력') {
+                      selectElement.style.display = 'none';  // Hide the select box
+                      inputElement.style.display = 'inline-block';
+                      inputElement.value = ""  // Show the input box
+                    } else {
+                      selectElement.style.display = 'inline-block';  // Show the select box
+                      inputElement.style.display = 'none';
+                      inputElement.value = selectElement.value;// Hide the input box
+                    }
+                  });
+                </script>
+              <hr class="persona_topic_line">
+
+              <div class="persona_setting_select">
+                <div class="persona_setting_select_first">
+                  <div class="persona_select_wrapper">
+                    <label for="department">직군</label>
+                    <select class="persona_select" name="department" id="department" required>
+                      <option value="">직군을 선택하세요.</option>
+                      <option value="B2C직군">B2C</option>
+                      <option value="네트워크직군">네트워크</option>
+                      <option value="B2B직군">B2B</option>
+                      <option value="R&D직군">R&D</option>
+                      <option value="사업직군">사업부서</option>
+                      <option value="지원직군">지원부서</option>
+                    </select>
+                  </div>
+
+                  <div class="persona_select_wrapper">
+                    <label for="rank">직급</label>
+                    <select class="persona_select" name="rank" id="rank" required>
+                      <option value="">직급을 선택하세요.</option>
+                      <option value="사원">사원</option>
+                      <option value="대리">대리</option>
+                      <option value="과장">과장</option>
+                      <option value="차장">차장</option>
+                      <option value="부장">부장</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="persona_setting_select_second">
+                  <div class="persona_select_wrapper">
+                    <label for="id_age">연령</label>
+                    <input class="persona_select" min="18" max="100" type="number" name="age" id="id_age" oninput="updatePersonaImage()" required>
+                  </div>
+
+                  <div class="persona_select_wrapper">
+                    <label for="gender">성별</label>
+                    {% comment %} <input type="radio" name="gender" id="gender_male" value="M" required/>
+                    <label for="gender_male">남성</label>
+                    <input type="radio" name="gender" id="gender_female" value="F" required/>
+                    <label for="gender_female">여성</label> {% endcomment %}
+                    <select class="persona_select" name="gender" id="gender" oninput="updatePersonaImage()" required>
+                      <option value="">성별</option>
+                      <option value="남성">남성</option>
+                      <option value="여성">여성</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="persona_setting_select_third">
+                  <div class="persona_select_wrapper">
+                    <label for="voice">목소리</label>
+                    <select class="persona_select" name="voice" id="voice" required>
+                      <option value=""> 목소리를 선택하세요.</option>
+                      <option value="ko-KR-Standard-D"> 밝은 남성 목소리</option>
+                      <option value="ko-KR-Wavenet-C"> 차분한 남성 목소리</option>
+                      <option value="ko-KR-Standard-C"> 부드러운 남성 목소리</option>
+                      <option value="ko-KR-Neural2-A"> 밝은 여성 목소리</option>
+                      <option value="ko-KR-Neural2-B"> 차분한 여성 목소리</option>
+                      <option value="ko-KR-Wavenet-B"> 중년 여성 목소리</option>
+                    </select>
+                  </div>
+
+                  <div class="persona_select_wrapper">
+                    <label for="career">경력</label>
+                    <input class="persona_select" min="1" max="50" type="number" name="career" id="career" required/>
+                  </div>
+                </div>
+              </div>
+              <button class="persona_setting_content_btn" type="submit">대화 시작하기▶</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endblock %}

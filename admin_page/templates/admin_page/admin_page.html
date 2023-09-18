@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+  <script src="{% static '/admin_page/admin_user.js' %}" defer></script>
+  <link rel="stylesheet" href="{% static 'admin_page/admin_user.css' %}">
+  <link rel="icon" type="image/x-icon" sizes="16x16" href="/static/image/kt_favicon.png">
+  <title>K-Training</title>
+</head>
+
+<body>
+    <div class="sidebar">
+        <a href="{% url 'common:home' %}" class="kt-coaching">K-Training</a>
+        <div class="separator"></div>
+        <div class="statistics">통계<span class="arrow">▼</span></div>
+        <div class= "inside-info">
+            <a href="{% url 'admin_page:admin_user' %}" id="visitors">사용자</a>
+            <a href="{% url 'admin_page:admin_persona' %}" id="member-ratio">페르소나</a>
+        </div>
+    </div>
+    <div class="main-section">
+        <div class="main-top">
+            <div class="main-top-text">
+                사용자 통계
+            </div>
+        </div>   
+        <div class="main-content">
+           <div class="main-graph-box1">
+                <div class="graph1-title">요일별 이용 현황</div>
+                <div class="graph1">
+                    <canvas id="weekday_Chart" style="height: 100%; width: 100%;"></canvas>
+                </div>
+                <script id="weekday_chart_data" type="application/json">
+                    {{ weekday_counts | safe }}
+                </script>
+            </div>
+            <br><br>
+            <div class="main-graph-box2">
+                <div class="graph1-title">시간대 별 이용 현황</div>
+                <div class="graph2">
+                    <canvas id="hour_Chart" style="height: 100%; width: 100%;"></canvas>
+                </div>
+                <script id="hour_chart_data" type="application/json">
+                    {{ hour_counts | safe }}
+                </script>
+            </div>
+        </div>
+    </div>  
+</body>
+</html>
+
+
+

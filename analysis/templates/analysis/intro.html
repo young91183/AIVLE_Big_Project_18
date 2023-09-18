@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="{% static 'analysis/intro.css' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+
+
+{% comment %} <p> 여긴 결과 보기 전 설명 페이지 </p>
+
+<p>Perspective value: {{ Perspective }}</p>
+<p>Negation value: {{ Negation }}</p>
+<p>Recognition value: {{ Recognition }}</p>
+<p>Respect value: {{ Respect }}</p>
+<p>Feedback value: {{ Feedback }}</p>
+<p>Feedback value: {{ f_score }}</p>
+<p>Feedback value: {{ socre_mem }}</p> {% endcomment %}
+<div class="ana_int_wrapper">
+    <div class="ana_int_contain">
+        <div class="ana_int_title">
+            {% if user.is_authenticated %}
+            {{ user.username }} 님의 코칭대화 분석 결과
+            {% else %}
+            회원님의 코칭 대화 분석 결과
+            {% endif %}
+        </div>
+        <div class="ana_int_content">
+            <div class="ana_int_content_left">
+                본 결과는 GROW 모델 기반 결과 및 코칭 대화에 중요한 5가지 요인을 진단하여 개인의 코칭 리더십 특성을 제공합니다. <br><br>
+                코칭 리더십에 대한 5가지 요인은 관점 변화, 존중, 인정, 판단, 분위기 영역으로 구성됩니다. <br>
+                <table class="result_intro_table" border="1" width="100%" >
+                    <th style="width: 16%">결과척도</th>
+	                <th style="width: 42%">정의</th>
+                    <th style="width: 42%">질문예시</th>
+                    <tr>
+                        <td style="text-align: center">인정</td>
+                        <td>대화 상대가 스스로 문제를 해결할<br>능력을 가지고 있다고 믿음</td>
+                        <td>이번 프로젝트가 끝나면 성장한 모습을<br>보여줄 수 있을 겁니다.</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">존중</td>
+                        <td>대화 상대를 존중하고 심리적으로<br>지지하고 돕는 질문</td>
+                        <td>당신의 목표를 달성하기 위해<br>제가 협력할 수 있습니다.</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">관점 변화</td>
+                        <td>대화 상대가 기존과 다른 관점에서<br>해결책을 찾도록 질문</td>
+                        <td>목표를 달성하기 위한 대안이 있나요?</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">판단</td>
+                        <td>대화 상대에게 선택지를 제공하거나<br>개인적인 의견이 포함된 질문</td>
+                        <td>개발하면서 빠르게 피드백을 수용하는<br>연습이 필요할 것 같네요.</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: center">부정</td>
+                        <td>부정적인 질문</td>
+                        <td>그런 불안정한 해결책을 제시하는 것이<br>도움이 될까요?</td>
+                    </tr>
+                </table>
+                자세한 결과 분석 내용은 상세 결과 페이지에서 확인하실 수 있습니다.
+            </div>
+            <div class="ana_int_content_right">
+                <div class="ana_int_content_right_score">
+                    <div class="ana_int_content_right_score_title"> 코칭 리더십 점수 <span class="score">{{ pie_chart.f_score }}</span> 점 </div>
+                    <div> 상세 결과 페이지에서 실시간 점수 변화를 확인하실 수 있습니다. </div>
+                </div>
+                <div class="ana_int_content_right_graph">
+                    <div class="ana_int_content_right_graph_title"> 코칭 리더십 요인 분석 </div>
+                    <canvas id="myChart" width="100" height="100"></canvas>
+                    <script id="pieChartData" type="application/json">{{ pie_chart.pie_counts|safe }}</script>
+                    <script src="{% static 'analysis/intro.js' %}" defer></script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="go_detail"href="{% url 'analysis:result' %}">결과분석 페이지로 가기</a>
+</div>
+</html>
+
+{% endblock %}
+
+<script>
+    var pie_chart_vpn = {{pie_chart_vpn}}
+</script>

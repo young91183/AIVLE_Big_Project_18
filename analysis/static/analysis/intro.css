@@ -1,0 +1,115 @@
+.ana_int_wrapper{
+    /* position: fixed; */
+    width: 98.9vw;
+    height: calc(100vh - 92px);
+    /* top: 92px; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background-color: aqua; */
+    margin-top: 5px;
+}
+
+.ana_int_contain{
+    text-align: left;
+}
+
+.ana_int_title{
+    font-weight:800;
+    font-size: 22px;
+    margin-left: 20px;
+}
+
+.ana_int_content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    border: 2px solid #B0DEE1;
+    border-radius: 10px;
+    padding: 20px 20px;
+    margin-top: 10px;
+}
+
+.ana_int_content_left{
+    font-weight: 500;
+    font-size: 15px;
+    /* line-height : 2.0; */
+    background-color: #F7F7F7;
+    border-radius: 20px;
+    padding: 30px;
+    width: 700px;
+    margin-right: 20px;
+}
+
+.result_intro_table{
+    border: 2px solid #828282;
+    border-collapse: collapse;
+    background-color: white;
+    margin: 10px 0px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.ana_int_content_left th{
+    font-weight: 600;
+    text-align: center;
+    background-color: #E5E5E5;
+}
+
+.ana_int_content_left td{
+    padding: 6px;
+}
+
+.ana_int_content_right{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* align-items: flex-start; */
+    width: 50%;
+    margin-left: 20px;
+}
+
+.ana_int_content_right_score_title{
+    font-weight: 700;
+    font-size: 20px;
+    margin: 10px 0px;
+}
+
+.score{
+    font-size: 30px;
+    font-weight: 700;
+    color:#0097FE
+}
+
+.ana_int_content_right_graph{
+    margin-bottom: 30px;
+}
+
+.ana_int_content_right_graph_title{
+    font-weight: 700;
+    font-size: 20px;
+    margin: 10px 0px;
+}
+
+.go_detail{
+    margin-top: 10px;
+    background-color: rgb(232, 232, 232);
+    color: black;
+    padding: 10px 15px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.go_detail:hover{
+    background-color: black;
+    color: white;
+    text-decoration: none;
+}
+
+#myChart {
+    margin-top: 30px;
+    width: 200px;
+    height: 200px;
+}
